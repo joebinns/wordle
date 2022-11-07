@@ -13,33 +13,33 @@ public class TextManager : MonoBehaviour
         _tilemap = GetComponent<Tilemap>();
     }
 
-    public void DeleteTextAtCurrentIndex()
+    public void SetCharacterAtCaret(char character)
     {
-        if (_gridIndex.x > 0 & _gridIndex.x <= FindObjectOfType<Grid>().Dimensions.x)
-        {
-            _gridIndex.x--;
-            DeleteCharacter(_gridIndex);
-        }
-    }
-    
-    public void SetTextAtCurrentIndex(char character)
-    {
-        if (_gridIndex.x >= 0 & _gridIndex.x < FindObjectOfType<Grid>().Dimensions.x)
-        {
-            SetCharacter(_gridIndex, character);
-            _gridIndex.x++;
-        }
-    }
-    
-    private void SetCharacter(Vector3Int position, char character)
-    {
+        Debug.Log(_gridIndex);
         var tile = FindTileByCharacter(character);
-        _tilemap.SetTile(position, tile);
+        if (tile != null)
+        {
+            if (_gridIndex.x >= 0 & _gridIndex.x < FindObjectOfType<Grid>().Dimensions.x)
+            {
+                // Set tile current
+                _tilemap.SetTile(_gridIndex, tile);
+                _gridIndex.x++;
+            }
+        }
+        else
+        {
+            if (_gridIndex.x > 0 & _gridIndex.x <= FindObjectOfType<Grid>().Dimensions.x)
+            {
+                // Delete previous tile
+                _gridIndex.x--;
+                _tilemap.SetTile(_gridIndex, null);
+            }
+        }
     }
-    
-    private void DeleteCharacter(Vector3Int position)
+
+    private void CheckIfTextIsValid()
     {
-        _tilemap.SetTile(position, null);
+        // If all 5 
     }
 
     private Tile FindTileByCharacter(char character) => Resources.Load(character.ToString()) as Tile;

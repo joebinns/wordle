@@ -1,25 +1,36 @@
+using System;
 using UnityEngine;
 
 public class KeyboardInput : MonoBehaviour
 {
+    private TextManager _textManager;
+
+    private void Awake()
+    {
+        _textManager = FindObjectOfType<TextManager>();
+    }
+
     private void Update()
     {
         if (Input.anyKeyDown)
         {
             foreach (char c in Input.inputString)
             {
-                Debug.Log(c);
+                // TODO: Pass character to textmanager
+                
+                /*
                 if (c == '\b') // has backspace/delete been pressed?
                 {
-                    FindObjectOfType<TextManager>().DeleteTextAtCurrentIndex();
+                    _textManager.DeleteCharacterAtPreviousIndex();
                 }
-                else if ((c == '\n') || (c == '\r')) // enter/return
+                */
+                if ((c == '\n') || (c == '\r')) // enter/return
                 {
                     // IF THERE IS AN ACCEPTABLE WORD, THEN SUBMIT
                 }
                 else
                 {
-                    FindObjectOfType<TextManager>().SetTextAtCurrentIndex(c);
+                    _textManager.SetCharacterAtCaret(c);
                 }
             }
         }
