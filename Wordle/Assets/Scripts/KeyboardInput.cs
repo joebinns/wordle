@@ -17,6 +17,7 @@ public class KeyboardInput : MonoBehaviour
                 }
                 else
                 {
+                    FindObjectOfType<TextManager>().SetText(Vector3Int.zero, c);
                 }
             }
         }
