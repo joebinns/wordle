@@ -16,17 +16,9 @@ public class KeyboardInput : MonoBehaviour
         {
             foreach (char c in Input.inputString)
             {
-                // TODO: Pass character to textmanager
-                
-                /*
-                if (c == '\b') // has backspace/delete been pressed?
-                {
-                    _textManager.DeleteCharacterAtPreviousIndex();
-                }
-                */
                 if ((c == '\n') || (c == '\r')) // enter/return
                 {
-                    // IF THERE IS AN ACCEPTABLE WORD, THEN SUBMIT
+                    _textManager.CheckIfTextIsValid();
                 }
                 else
                 {
