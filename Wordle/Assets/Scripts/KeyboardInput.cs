@@ -11,13 +11,15 @@ public class KeyboardInput : MonoBehaviour
                 Debug.Log(c);
                 if (c == '\b') // has backspace/delete been pressed?
                 {
+                    FindObjectOfType<TextManager>().DeleteTextAtCurrentIndex();
                 }
                 else if ((c == '\n') || (c == '\r')) // enter/return
                 {
+                    // IF THERE IS AN ACCEPTABLE WORD, THEN SUBMIT
                 }
                 else
                 {
-                    FindObjectOfType<TextManager>().SetText(Vector3Int.zero, c);
+                    FindObjectOfType<TextManager>().SetTextAtCurrentIndex(c);
                 }
             }
         }
