@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class WordChecker : MonoBehaviour
@@ -10,11 +9,20 @@ public class WordChecker : MonoBehaviour
     {
         _dictionary = FindObjectOfType<Dictionary>();
     }
+    
+    private void OnEnable()
+    {
+        GameManager.Instance.OnGameReset += Reset;
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.OnGameReset -= Reset;
+    }
 
     private void Start()
     {
-        _word = _dictionary.GetRandomWord();
-        Debug.Log(_word);
+        Reset();
     }
 
     public bool IsWordRecognised(string word)
@@ -35,5 +43,11 @@ public class WordChecker : MonoBehaviour
     public bool DoesWordMatch(string word)
     {
         return word == _word;
+    }
+
+    private void Reset()
+    {
+        _word = _dictionary.GetRandomWord();
+        Debug.Log(_word);
     }
 }
