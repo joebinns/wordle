@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class KeyboardInput : MonoBehaviour
 {
-    private TextManager _textManager;
+    private TextTilemap _textManager;
 
     private void Awake()
     {
-        _textManager = FindObjectOfType<TextManager>();
+        _textManager = FindObjectOfType<TextTilemap>();
     }
 
     private void Update()
@@ -18,7 +18,7 @@ public class KeyboardInput : MonoBehaviour
             {
                 if ((c == '\n') || (c == '\r')) // enter/return
                 {
-                    _textManager.CheckIfTextIsValid();
+                    _textManager.EnterText();
                 }
                 else
                 {

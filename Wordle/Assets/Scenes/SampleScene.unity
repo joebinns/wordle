@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 221659434}
   - component: {fileID: 221659436}
   - component: {fileID: 221659435}
+  - component: {fileID: 221659437}
   m_Layer: 0
   m_Name: Tile Tilemap
   m_TagString: Untagged
@@ -579,6 +580,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &221659437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221659433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0316e837f0534a44905e461e27b09b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,6 +968,7 @@ GameObject:
   - component: {fileID: 1476457472}
   - component: {fileID: 1476457471}
   - component: {fileID: 1476457473}
+  - component: {fileID: 1476457474}
   m_Layer: 0
   m_Name: Guesses Grid
   m_TagString: Untagged
@@ -1004,6 +1018,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dimensions: {x: 5, y: 6, z: 0}
+--- !u!114 &1476457474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476457470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9073a17fafe89784cbaa921c856d6d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Word: 
 --- !u!1 &1675965092
 GameObject:
   m_ObjectHideFlags: 0
