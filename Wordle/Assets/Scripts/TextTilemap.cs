@@ -54,7 +54,7 @@ public class TextTilemap : MonoBehaviour
                 var word = GetWord(_gridIndex.y);
                 if (_wordChecker.IsWordRecognised(word))
                 {
-                    // TODO: Check which letters are included, and their positions.
+                    // TODO: Check if word has previously been entered
                     var position = new Vector3Int(0, _gridIndex.y, 0);
                     for (int x = 0; x < word.Length; x++)
                     {
@@ -72,6 +72,10 @@ public class TextTilemap : MonoBehaviour
                         _tileTilemap.SetTile(position, tileState);
                     }
                     NextRow();
+                    if (_wordChecker.DoesWordMatch(word))
+                    {
+                        _isEnabled = false;
+                    }
                 }
             }
         }

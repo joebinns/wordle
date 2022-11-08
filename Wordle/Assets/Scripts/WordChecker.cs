@@ -2,26 +2,33 @@ using UnityEngine;
 
 public class WordChecker : MonoBehaviour
 {
-    private string Word = "slime";
+    private string _word;
+    private Dictionary _dictionary;
+
+    private void Awake()
+    {
+        _dictionary = FindObjectOfType<Dictionary>();
+        _word = _dictionary.GetRandomWord();
+        Debug.Log(_word);
+    }
 
     public bool IsWordRecognised(string word)
     {
-        // TODO: Check if word list contains word
-        return true;
+        return _dictionary.Contains(word);
     }
 
     public bool IsCharacterIncluded(char character)
     {
-        return Word.Contains(character);
+        return _word.Contains(character);
     }
 
     public bool IsCharacterIncludedAtIndex(char character, int index)
     {
-        return character == Word[index];
+        return character == _word[index];
     }
 
     public bool DoesWordMatch(string word)
     {
-        return word == Word;
+        return word == _word;
     }
 }
