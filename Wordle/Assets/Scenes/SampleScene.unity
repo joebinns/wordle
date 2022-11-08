@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 440077912}
   - component: {fileID: 440077914}
   - component: {fileID: 440077913}
+  - component: {fileID: 440077915}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -1140,6 +1141,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &440077915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440077911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2626164debe694a82aaf86a1ffd910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  correct_guess: {r: 0, g: 0.4784314, b: 0.2392157, a: 1}
+  semi_correct_guess: {r: 0.8196079, g: 0.4901961, b: 0, a: 1}
+  wrong_guess: {r: 0.24705884, g: 0.24705884, b: 0.24705884, a: 1}
+  un_guessed: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,6 +1487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 875783538}
+  - component: {fileID: 875783539}
   m_Layer: 0
   m_Name: Guesses
   m_TagString: Untagged
@@ -1493,6 +1511,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &875783539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875783536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9073a17fafe89784cbaa921c856d6d78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,9 +1624,8 @@ GameObject:
   - component: {fileID: 1476457472}
   - component: {fileID: 1476457471}
   - component: {fileID: 1476457473}
-  - component: {fileID: 1476457474}
   m_Layer: 0
-  m_Name: Guesses Grid
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1644,18 +1673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dimensions: {x: 5, y: 6, z: 1}
---- !u!114 &1476457474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476457470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9073a17fafe89784cbaa921c856d6d78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1675965092
 GameObject:
   m_ObjectHideFlags: 0

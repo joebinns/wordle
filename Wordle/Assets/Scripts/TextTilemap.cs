@@ -12,6 +12,7 @@ public class TextTilemap : MonoBehaviour
     private Tilemap _tilemap;
     private WordChecker _wordChecker;
     private TileTilemap _tileTilemap;
+    private KeyboardTilemap _keyboardTilemap;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class TextTilemap : MonoBehaviour
         _grid = FindObjectOfType<Grid>();
         _wordChecker = FindObjectOfType<WordChecker>();
         _tileTilemap = FindObjectOfType<TileTilemap>();
+        _keyboardTilemap = FindObjectOfType<KeyboardTilemap>();
     }
 
     private void OnEnable()
@@ -81,6 +83,7 @@ public class TextTilemap : MonoBehaviour
                             }
                         }
                         _tileTilemap.SetTile(position, tileState);
+                        _keyboardTilemap.SetColor(position, tileState); // TODO: Use the correct position for the keyboard tilemap!
                     }
                     NextRow();
                     if (_wordChecker.DoesWordMatch(word))

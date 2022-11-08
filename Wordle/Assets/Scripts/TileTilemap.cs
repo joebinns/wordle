@@ -81,7 +81,7 @@ public class TileTilemap : MonoBehaviour
             for (int y = 0; y < _grid.Dimensions.y; y++)
             {
                 var position = new Vector3Int(x, -y, 0);
-                _tilemap.SetTile(position, un_guessed);
+                SetTile(position, TileState.UnGuessed);
             }
         }
     }
