@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WordChecker : MonoBehaviour
@@ -8,6 +9,10 @@ public class WordChecker : MonoBehaviour
     private void Awake()
     {
         _dictionary = FindObjectOfType<Dictionary>();
+    }
+
+    private void Start()
+    {
         _word = _dictionary.GetRandomWord();
         Debug.Log(_word);
     }

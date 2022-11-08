@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,6 +19,16 @@ public class TextTilemap : MonoBehaviour
         _grid = FindObjectOfType<Grid>();
         _wordChecker = FindObjectOfType<WordChecker>();
         _tileTilemap = FindObjectOfType<TileTilemap>();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.OnGameReset += Reset;
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.OnGameReset -= Reset;
     }
 
     public void SetCharacterAtCaret(char character)
@@ -75,6 +86,7 @@ public class TextTilemap : MonoBehaviour
                     if (_wordChecker.DoesWordMatch(word))
                     {
                         _isEnabled = false;
+                        GameManager.Instance.ResetGame();
                     }
                 }
             }
@@ -86,8 +98,8 @@ public class TextTilemap : MonoBehaviour
         _gridIndex.y--;
         if (_gridIndex.y <= -_grid.Dimensions.y)
         {
-            // Prevent further typing
             _isEnabled = false;
+            GameManager.Instance.ResetGame();
         }
         _gridIndex.x = 0;
     }
@@ -103,5 +115,22 @@ public class TextTilemap : MonoBehaviour
             word += _tilemap.GetTile(coord).name;
         }
         return (word);
+    }
+
+    private void Reset()
+    {
+        ResetTilemap();
+        ResetCaret();
+        _isEnabled = true;
+    }
+
+    private void ResetTilemap()
+    {
+        _tilemap.ClearAllTiles();
+    }
+
+    private void ResetCaret()
+    {
+        _gridIndex = Vector3Int.zero;
     }
 }

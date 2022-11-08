@@ -18,6 +18,16 @@ public class TileTilemap : MonoBehaviour
         _tilemap = GetComponent<Tilemap>();
         _grid = FindObjectOfType<Grid>();
     }
+    
+    private void OnEnable()
+    {
+        GameManager.Instance.OnGameReset += Reset;
+    }
+    
+    private void OnDisable()
+    {
+        GameManager.Instance.OnGameReset -= Reset;
+    }
 
     public void SetTile(Vector3Int position, TileState tileState)
     {
@@ -57,6 +67,23 @@ public class TileTilemap : MonoBehaviour
         semi_correct_guess = Resources.Load("semi_correct_guess") as Tile;
         wrong_guess = Resources.Load("wrong_guess") as Tile;
         un_guessed = Resources.Load("un_guessed") as Tile;
+    }
+
+    private void Reset()
+    {
+        ResetTilemap();
+    }
+
+    private void ResetTilemap()
+    {
+        for (int x = 0; x < _grid.Dimensions.x; x++)
+        {
+            for (int y = 0; y < _grid.Dimensions.y; y++)
+            {
+                var position = new Vector3Int(x, -y, 0);
+                _tilemap.SetTile(position, un_guessed);
+            }
+        }
     }
 }
 
