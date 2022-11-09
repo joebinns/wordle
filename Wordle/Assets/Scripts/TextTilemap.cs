@@ -83,7 +83,7 @@ public class TextTilemap : MonoBehaviour
                             }
                         }
                         _tileTilemap.SetTile(position, tileState);
-                        _keyboardTilemap.SetColor(position, tileState); // TODO: Use the correct position for the keyboard tilemap!
+                        _keyboardTilemap.SetColor(character.ToString(), tileState);
                     }
                     NextRow();
                     if (_wordChecker.DoesWordMatch(word))
