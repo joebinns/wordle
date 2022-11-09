@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class KeyboardTileTilemap : MonoBehaviour
 {
@@ -8,15 +9,16 @@ public class KeyboardTileTilemap : MonoBehaviour
     [SerializeField] private Color semi_correct_guess;
     [SerializeField] private Color wrong_guess;
     [SerializeField] private Color un_guessed;
-
-    private Grid _grid;
+    
+    [HideInInspector] public Dictionary<Vector3Int, TileState> PositionToTileState = new Dictionary<Vector3Int, TileState>();
+    
     private Tilemap _tilemap;
     private KeyboardTilemap _keyboardTilemap;
+    
 
     private void Awake()
     {
         _tilemap = GetComponent<Tilemap>();
-        _grid = FindObjectOfType<Grid>();
         _keyboardTilemap = FindObjectOfType<KeyboardTilemap>();
         ResetTilemap();
     }
@@ -30,16 +32,26 @@ public class KeyboardTileTilemap : MonoBehaviour
     {
         GameManager.Instance.OnGameReset -= Reset;
     }
+
+    public Vector3Int TileNameToPosition(string name)
+    {
+        return _keyboardTilemap.TileNameToPosition[name];
+    }
     
+    /*
     public void SetColor(string name, TileState tileState)
     {
         var color = TileStateToColor(tileState);
-        SetColor(_keyboardTilemap.TileNameToPosition[name], color);
+        var position = TileNameToPosition(name);
+        PositionToTileState[position] = tileState;
+        SetColor(position, color);
     }
+    */
     
-    private void SetColor(Vector3Int position, TileState tileState)
+    public void SetColor(Vector3Int position, TileState tileState)
     {
         var color = TileStateToColor(tileState);
+        PositionToTileState[position] = tileState;
         SetColor(position, color);
     }
     

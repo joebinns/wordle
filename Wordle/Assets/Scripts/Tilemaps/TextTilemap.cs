@@ -81,7 +81,11 @@ public class TextTilemap : MonoBehaviour
                             }
                         }
                         _tileTilemap.SetTile(position, tileState);
-                        _keyboardTileTilemap.SetColor(character.ToString(), tileState);
+                        var keyboardPosition = _keyboardTileTilemap.TileNameToPosition(character.ToString());
+                        if (_keyboardTileTilemap.PositionToTileState[keyboardPosition] < tileState)
+                        {
+                            _keyboardTileTilemap.SetColor(keyboardPosition, tileState);
+                        }
                     }
                     NextRow();
                     if (_wordChecker.DoesWordMatch(word))

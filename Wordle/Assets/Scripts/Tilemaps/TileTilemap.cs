@@ -89,8 +89,8 @@ public class TileTilemap : MonoBehaviour
 
 public enum TileState
 {
-    CorrectGuess,
-    SemiCorrectGuess,
-    WrongGuess,
-    UnGuessed
+    UnGuessed = 0,
+    WrongGuess = 1,
+    SemiCorrectGuess = 2,
+    CorrectGuess = 3
 }
