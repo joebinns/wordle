@@ -1,18 +1,16 @@
-using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TextTilemap : MonoBehaviour
 {
     private Vector3Int _gridIndex = Vector3Int.zero;
-    [SerializeField] private Tile _tile;
     private bool _isEnabled = true;
 
     private Grid _grid;
     private Tilemap _tilemap;
     private WordChecker _wordChecker;
     private TileTilemap _tileTilemap;
-    private KeyboardTilemap _keyboardTilemap;
+    private KeyboardTileTilemap _keyboardTileTilemap;
 
     private void Awake()
     {
@@ -20,7 +18,7 @@ public class TextTilemap : MonoBehaviour
         _grid = FindObjectOfType<Grid>();
         _wordChecker = FindObjectOfType<WordChecker>();
         _tileTilemap = FindObjectOfType<TileTilemap>();
-        _keyboardTilemap = FindObjectOfType<KeyboardTilemap>();
+        _keyboardTileTilemap = FindObjectOfType<KeyboardTileTilemap>();
     }
 
     private void OnEnable()
@@ -83,7 +81,7 @@ public class TextTilemap : MonoBehaviour
                             }
                         }
                         _tileTilemap.SetTile(position, tileState);
-                        _keyboardTilemap.SetColor(character.ToString(), tileState);
+                        _keyboardTileTilemap.SetColor(character.ToString(), tileState);
                     }
                     NextRow();
                     if (_wordChecker.DoesWordMatch(word))
