@@ -3,10 +3,12 @@ using UnityEngine;
 public class KeyboardInput : MonoBehaviour
 {
     private TextTilemap _textTilemap;
+    private MouseInput _mouseInput;
 
     private void Awake()
     {
         _textTilemap = FindObjectOfType<TextTilemap>();
+        _mouseInput = FindObjectOfType<MouseInput>();
     }
 
     private void Update()
