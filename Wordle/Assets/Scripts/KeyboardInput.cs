@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class KeyboardInput : MonoBehaviour
 {
-    private TextTilemap _textManager;
+    private TextTilemap _textTilemap;
 
     private void Awake()
     {
-        _textManager = FindObjectOfType<TextTilemap>();
+        _textTilemap = FindObjectOfType<TextTilemap>();
     }
 
     private void Update()
@@ -17,11 +17,12 @@ public class KeyboardInput : MonoBehaviour
             {
                 if ((c == '\n') || (c == '\r')) // enter/return
                 {
-                    _textManager.EnterText();
+                    _textTilemap.EnterText();
                 }
+                
                 else
                 {
-                    _textManager.SetCharacterAtCaret(c);
+                    _textTilemap.SetCharacterAtCaret(c);
                 }
             }
         }

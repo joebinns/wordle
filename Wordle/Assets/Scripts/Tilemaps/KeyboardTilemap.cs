@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,6 +12,12 @@ public class KeyboardTilemap : MonoBehaviour
     {
         _tilemap = GetComponent<Tilemap>();
         TileNameToPosition = MapTileNamesToPositions();
+    }
+
+    public string PositionToTileName(Vector3Int position)
+    {
+        var name = TileNameToPosition.FirstOrDefault(x => x.Value == position).Key;
+        return name;
     }
     
     private Dictionary<string, Vector3Int> MapTileNamesToPositions()
