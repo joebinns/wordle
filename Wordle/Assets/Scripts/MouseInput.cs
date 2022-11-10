@@ -51,6 +51,11 @@ public class MouseInput : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            // Un-hover (Note: There should never be a tile at this position).
+            HoveredPosition = -Vector3Int.one;
+        }
     }
 
     private IEnumerator HoverTile(Vector3Int position)

@@ -13,6 +13,7 @@ public class TextTilemap : MonoBehaviour
     private WordChecker _wordChecker;
     private TileTilemap _tileTilemap;
     private KeyboardTileTilemap _keyboardTileTilemap;
+    private List<string> _entries = new List<string>();
 
     private void Awake()
     {
@@ -67,56 +68,59 @@ public class TextTilemap : MonoBehaviour
                 var word = GetWord(_gridIndex.y);
                 if (_wordChecker.IsWordRecognised(word))
                 {
-                    // TODO: Check if word has previously been entered
-                    var position = new Vector3Int(0, _gridIndex.y, 0);
-                    var indexToTileState = new Dictionary<int, TileState>();
-                    for (int x = 0; x < word.Length; x++)
-                    {
-                        var character = word[x];
-                        var tileState = TileState.WrongGuess;
-                        if (_wordChecker.IsCharacterIncluded(character))
+                    if (!_entries.Contains(word))
+                    { 
+                        var position = new Vector3Int(0, _gridIndex.y, 0);
+                        var indexToTileState = new Dictionary<int, TileState>();
+                        for (int x = 0; x < word.Length; x++)
                         {
-                            tileState = TileState.SemiCorrectGuess;
-                            if (_wordChecker.IsCharacterIncludedAtIndex(character, x))
+                            var character = word[x];
+                            var tileState = TileState.WrongGuess;
+                            if (_wordChecker.IsCharacterIncluded(character))
                             {
-                                tileState = TileState.CorrectGuess;
+                                tileState = TileState.SemiCorrectGuess;
+                                if (_wordChecker.IsCharacterIncludedAtIndex(character, x))
+                                {
+                                    tileState = TileState.CorrectGuess;
+                                }
+                            }
+                            indexToTileState[x] = tileState;
+                        }
+
+                        var charToExcess = _wordChecker.GetCharToExcess(word);
+                        for (int x = word.Length - 1; x >= 0; x--)
+                        {
+                            var character = word[x];
+                            if (indexToTileState[x] == TileState.SemiCorrectGuess)
+                            {
+                                if (charToExcess[character] > 0)
+                                {
+                                    indexToTileState[x] = TileState.WrongGuess;
+                                    charToExcess[character] -= 1;
+                                }
                             }
                         }
-                        indexToTileState[x] = tileState;
-                    }
-
-                    var charToExcess = _wordChecker.GetCharToExcess(word);
-                    for (int x = word.Length - 1; x >= 0; x--)
-                    {
-                        var character = word[x];
-                        if (indexToTileState[x] == TileState.SemiCorrectGuess)
+                        
+                        for (int x = 0; x < word.Length; x++)
                         {
-                            if (charToExcess[character] > 0)
+                            position.x = x;
+                            var character = word[x];
+                            var tileState = indexToTileState[x];
+                            _tileTilemap.SetTile(position, tileState);
+                            var keyboardPosition = _keyboardTileTilemap.TileNameToPosition(character.ToString());
+                            if (_keyboardTileTilemap.PositionToTileState[keyboardPosition] < tileState)
                             {
-                                indexToTileState[x] = TileState.WrongGuess;
-                                charToExcess[character] -= 1;
+                                _keyboardTileTilemap.SetColor(keyboardPosition, tileState);
                             }
                         }
-                    }
-                    
-                    for (int x = 0; x < word.Length; x++)
-                    {
-                        position.x = x;
-                        var character = word[x];
-                        var tileState = indexToTileState[x];
-                        _tileTilemap.SetTile(position, tileState);
-                        var keyboardPosition = _keyboardTileTilemap.TileNameToPosition(character.ToString());
-                        if (_keyboardTileTilemap.PositionToTileState[keyboardPosition] < tileState)
-                        {
-                            _keyboardTileTilemap.SetColor(keyboardPosition, tileState);
-                        }
-                    }
 
-                    NextRow();
-                    if (_wordChecker.DoesWordMatch(word))
-                    {
-                        _isEnabled = false;
-                        GameManager.Instance.ResetGame();
+                        NextRow();
+                        _entries.Add(word);
+                        if (_wordChecker.DoesWordMatch(word))
+                        {
+                            _isEnabled = false;
+                            GameManager.Instance.ResetGame();
+                        }
                     }
                 }
             }
@@ -152,6 +156,7 @@ public class TextTilemap : MonoBehaviour
         ResetTilemap();
         ResetCaret();
         _isEnabled = true;
+        _entries.Clear();
     }
 
     private void ResetTilemap()
