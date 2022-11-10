@@ -12,13 +12,13 @@ public class KeyboardTileTilemap : MonoBehaviour
     
     [HideInInspector] public Dictionary<Vector3Int, TileState> PositionToTileState = new Dictionary<Vector3Int, TileState>();
     
-    private Tilemap _tilemap;
+    public Tilemap Tilemap;
     private KeyboardTilemap _keyboardTilemap;
     
 
     private void Awake()
     {
-        _tilemap = GetComponent<Tilemap>();
+        Tilemap = GetComponent<Tilemap>();
         _keyboardTilemap = FindObjectOfType<KeyboardTilemap>();
         ResetTilemap();
     }
@@ -57,9 +57,9 @@ public class KeyboardTileTilemap : MonoBehaviour
     
     private void SetColor(Vector3Int position, Color color)
     {
-        _tilemap.SetTileFlags(position, TileFlags.None);
-        _tilemap.SetColor(position, color);
-        _tilemap.SetTileFlags(position, TileFlags.LockColor);
+        Tilemap.SetTileFlags(position, TileFlags.None);
+        Tilemap.SetColor(position, color);
+        Tilemap.SetTileFlags(position, TileFlags.LockColor);
         //_tilemap.RefreshTile(position);
     }
 
@@ -91,11 +91,11 @@ public class KeyboardTileTilemap : MonoBehaviour
 
     private void ResetTilemap()
     {
-        for (int x = 0; x < _tilemap.size.x; x++)
+        for (int x = 0; x < Tilemap.size.x; x++)
         {
-            for (int y = 0; y < _tilemap.size.y; y++)
+            for (int y = 0; y < Tilemap.size.y; y++)
             {
-                for (int z = 0; z < _tilemap.size.z; z++)
+                for (int z = 0; z < Tilemap.size.z; z++)
                 {
                     var position = new Vector3Int(x, -y, 0);
                     SetColor(position, TileState.UnGuessed);
