@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -67,9 +69,9 @@ public class TextTilemap : MonoBehaviour
                 {
                     // TODO: Check if word has previously been entered
                     var position = new Vector3Int(0, _gridIndex.y, 0);
+                    var indexToTileState = new Dictionary<int, TileState>();
                     for (int x = 0; x < word.Length; x++)
                     {
-                        position.x = x;
                         var character = word[x];
                         var tileState = TileState.WrongGuess;
                         if (_wordChecker.IsCharacterIncluded(character))
@@ -80,6 +82,28 @@ public class TextTilemap : MonoBehaviour
                                 tileState = TileState.CorrectGuess;
                             }
                         }
+                        indexToTileState[x] = tileState;
+                    }
+
+                    var charToExcess = _wordChecker.GetCharToExcess(word);
+                    for (int x = word.Length - 1; x >= 0; x--)
+                    {
+                        var character = word[x];
+                        if (indexToTileState[x] == TileState.SemiCorrectGuess)
+                        {
+                            if (charToExcess[character] > 0)
+                            {
+                                indexToTileState[x] = TileState.WrongGuess;
+                                charToExcess[character] -= 1;
+                            }
+                        }
+                    }
+                    
+                    for (int x = 0; x < word.Length; x++)
+                    {
+                        position.x = x;
+                        var character = word[x];
+                        var tileState = indexToTileState[x];
                         _tileTilemap.SetTile(position, tileState);
                         var keyboardPosition = _keyboardTileTilemap.TileNameToPosition(character.ToString());
                         if (_keyboardTileTilemap.PositionToTileState[keyboardPosition] < tileState)
@@ -87,6 +111,7 @@ public class TextTilemap : MonoBehaviour
                             _keyboardTileTilemap.SetColor(keyboardPosition, tileState);
                         }
                     }
+
                     NextRow();
                     if (_wordChecker.DoesWordMatch(word))
                     {
