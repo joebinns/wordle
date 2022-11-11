@@ -17,7 +17,7 @@ namespace Tilemaps
 
         public void ApplyColorOverlay(Vector3Int position, Color overlayColor)
         {
-            if (!Tilemap.GetTile(position)) { return; }
+            if (!Tilemap.HasTile(position)) { return; }
             var color = TileStateToTile(_positionToTileState[position]).color;
             color *= overlayColor;
             SetColor(position, color);
@@ -25,7 +25,7 @@ namespace Tilemaps
 
         public void ResetColorOverlay(Vector3Int position)
         {
-            if (!Tilemap.GetTile(position)) { return; }
+            if (!Tilemap.HasTile(position)) { return; }
             var color = TileStateToTile(_positionToTileState[position]).color;
             SetColor(position, color);
         }

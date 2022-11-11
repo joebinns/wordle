@@ -19,7 +19,8 @@ namespace Tilemaps
         private Dictionary<string, Vector3Int> _tileNameToPosition = new Dictionary<string, Vector3Int>();
         public Vector3Int TileNameToPosition(string name) => _tileNameToPosition[name];
         public string PositionToTileName(Vector3Int position) => _tileNameToPosition.FirstOrDefault(x => x.Value == position).Key;
-
+        public bool Contains(string name) => _tileNameToPosition.ContainsKey(name);
+        
         private Dictionary<string, Vector3Int> MapTileNamesToPositions()
         {
             var tileNameToPosition = new Dictionary<string, Vector3Int>();

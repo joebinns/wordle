@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class KeyboardInput : MonoBehaviour
 {
-    private TextTilemap _textTilemap;
+    private TextEditor _textEditor;
     private MouseInput _mouseInput;
 
     private void Awake()
     {
-        _textTilemap = FindObjectOfType<TextTilemap>();
+        _textEditor = FindObjectOfType<TextEditor>();
         _mouseInput = FindObjectOfType<MouseInput>();
     }
 
@@ -19,13 +19,13 @@ public class KeyboardInput : MonoBehaviour
             {
                 if ((c == '\n') || (c == '\r')) // enter/return
                 {
-                    _textTilemap.EnterText();
+                    _textEditor.EnterText();
                 }
                 
                 else
                 {
                     _mouseInput.PressTile(c);
-                    _textTilemap.SetCharacterAtCaret(c);
+                    _textEditor.SetCharacterAtCaret(c);
                 }
             }
         }

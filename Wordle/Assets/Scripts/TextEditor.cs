@@ -3,7 +3,6 @@ using Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(LetterTilemapHandler))]
 public class TextEditor : MonoBehaviour
 {
     private bool _isEnabled = true;
@@ -12,12 +11,12 @@ public class TextEditor : MonoBehaviour
     
     [SerializeField] private BlockTilemapHandler _guessesBlockTilemapHandler;
     [SerializeField] private BlockTilemapHandler _keyboardBlockTilemapHandler;
-    private LetterTilemapHandler _letterTilemapHandler;
+    [SerializeField] private LetterTilemapHandler _guessesLetterTilemapHandler;
     private WordChecker _wordChecker;
 
     private void Awake()
     {
-        _letterTilemapHandler = FindObjectOfType<LetterTilemapHandler>();
+        _guessesLetterTilemapHandler = FindObjectOfType<LetterTilemapHandler>();
         _wordChecker = FindObjectOfType<WordChecker>();
     }
 
@@ -42,14 +41,14 @@ public class TextEditor : MonoBehaviour
             if (tile != null)
             {
                 // Set tile current
-                _letterTilemapHandler.Tilemap.SetTile(_caretPosition, tile);
+                _guessesLetterTilemapHandler.Tilemap.SetTile(_caretPosition, tile);
                 _caretPosition.x++;
             }
             else
             {
                 // Delete previous tile
                 _caretPosition.x--;
-                _letterTilemapHandler.Tilemap.SetTile(_caretPosition, null);
+                _guessesLetterTilemapHandler.Tilemap.SetTile(_caretPosition, null);
             }
         }
     }
@@ -131,10 +130,10 @@ public class TextEditor : MonoBehaviour
     private string GetWord(int yPosition)
     {
         string word = "";
-        for (int x = 0; x < _letterTilemapHandler.Tilemap.size.x; x++)
+        for (int x = 0; x < _guessesLetterTilemapHandler.Tilemap.size.x; x++)
         {
             var coord = new Vector3Int(x, yPosition, 0);
-            word += _letterTilemapHandler.Tilemap.GetTile(coord).name;
+            word += _guessesLetterTilemapHandler.Tilemap.GetTile(coord).name;
         }
         return (word);
     }

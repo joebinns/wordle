@@ -1,14 +1,15 @@
 using System.Collections;
+using Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MouseInput : MonoBehaviour
 {
-    private TextTilemap _textTilemap;
-    private KeyboardTilemap _keyboardTilemap;
-    private KeyboardTileTilemap _keyboardTileTilemap;
+    private TextEditor _textEditor;
+    private LetterTilemapTracker  _keyboardLetterTilemapTracker;
+    private BlockTilemapHandler _keyboardBlockTilemapHandler;
 
-    private Vector3Int _hoveredPosition;
+    private Vector3Int _hoveredPosition = -Vector3Int.one;
     public Vector3Int HoveredPosition
     {
         get => _hoveredPosition;
@@ -16,10 +17,8 @@ public class MouseInput : MonoBehaviour
         {
             if (_hoveredPosition != value)
             {
-                //StartCoroutine(UnHoverTile(_hoveredPosition));
                 UnHoverTile(_hoveredPosition);
                 _hoveredPosition = value;
-                //StartCoroutine(HoverTile(_hoveredPosition));
                 HoverTile(_hoveredPosition);
             }
         }
@@ -27,9 +26,9 @@ public class MouseInput : MonoBehaviour
 
     private void Awake()
     {
-        _textTilemap = FindObjectOfType<TextTilemap>();
-        _keyboardTilemap = FindObjectOfType<KeyboardTilemap>();
-        _keyboardTileTilemap = FindObjectOfType<KeyboardTileTilemap>();
+        _textEditor = FindObjectOfType<TextEditor>();
+        _keyboardLetterTilemapTracker = FindObjectOfType<LetterTilemapTracker>();
+        _keyboardBlockTilemapHandler = FindObjectOfType<BlockTilemapHandler>();
     }
 
     private void Update()
@@ -37,8 +36,8 @@ public class MouseInput : MonoBehaviour
         RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
         if(rayHit.collider != null)
         {
-            var tilemapPosition = _keyboardTileTilemap.Tilemap.WorldToCell(rayHit.point);
-            var name = _keyboardTilemap.PositionToTileName(tilemapPosition);
+            var tilemapPosition = _keyboardBlockTilemapHandler.Tilemap.WorldToCell(rayHit.point);
+            var name = _keyboardLetterTilemapTracker.PositionToTileName(tilemapPosition);
 
             HoveredPosition = tilemapPosition;
             
@@ -47,7 +46,7 @@ public class MouseInput : MonoBehaviour
                 var character = name[0];
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _textTilemap.SetCharacterAtCaret(character);
+                    _textEditor.SetCharacterAtCaret(character);
                     PressTile(character);
                 }
             }
@@ -62,9 +61,9 @@ public class MouseInput : MonoBehaviour
     public void PressTile(char character)
     {
         var name = character.ToString();
-        if (_keyboardTilemap.TileNameToPosition.ContainsKey(name))
+        if (_keyboardLetterTilemapTracker.Contains(name))
         {
-            var position = _keyboardTilemap.TileNameToPosition[name];
+            var position = _keyboardLetterTilemapTracker.TileNameToPosition(name);
             StartCoroutine(PressTileCoroutine(position));
         }
     }
@@ -80,19 +79,19 @@ public class MouseInput : MonoBehaviour
     {
         var colorOverlay = Color.white;
         colorOverlay.a = 0.8f;
-        _keyboardTileTilemap.ApplyColorOverlay(position, colorOverlay);
+        _keyboardBlockTilemapHandler.ApplyColorOverlay(position, colorOverlay);
     }
 
     private void UnHoverTile(Vector3Int position)
     {
-        _keyboardTileTilemap.ResetColor(position);
+        _keyboardBlockTilemapHandler.ResetColorOverlay(position);
     }
 
     // TODO: Also lerp the letters on the keys.
     private IEnumerator LerpTilePosition(Vector3Int position, float start, float end)
     {
         HoverTile(position);
-        var tilemap = _keyboardTileTilemap.Tilemap;
+        var tilemap = _keyboardBlockTilemapHandler.Tilemap;
         tilemap.SetTileFlags(position, TileFlags.None);
         var t = 0f;
         var duration = 0.05f;
