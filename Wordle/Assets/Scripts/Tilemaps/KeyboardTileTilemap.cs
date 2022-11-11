@@ -48,10 +48,28 @@ public class KeyboardTileTilemap : MonoBehaviour
     }
     */
     
+    public void ApplyColorOverlay(Vector3Int position, Color overlayColor)
+    {
+        if (!Tilemap.GetTile(position)) { return; }
+        var tileState = PositionToTileState[position];
+        var color = TileStateToColor(tileState);
+        color *= overlayColor;
+        SetColor(position, color);
+    }
+    
     public void SetColor(Vector3Int position, TileState tileState)
     {
+        if (!Tilemap.GetTile(position)) { return; }
         var color = TileStateToColor(tileState);
         PositionToTileState[position] = tileState;
+        SetColor(position, color);
+    }
+    
+    public void ResetColor(Vector3Int position)
+    {
+        if (!Tilemap.GetTile(position)) { return; }
+        var tileState = PositionToTileState[position];
+        var color = TileStateToColor(tileState);
         SetColor(position, color);
     }
     
@@ -60,7 +78,6 @@ public class KeyboardTileTilemap : MonoBehaviour
         Tilemap.SetTileFlags(position, TileFlags.None);
         Tilemap.SetColor(position, color);
         Tilemap.SetTileFlags(position, TileFlags.LockColor);
-        //_tilemap.RefreshTile(position);
     }
 
     private Color TileStateToColor(TileState tileState)

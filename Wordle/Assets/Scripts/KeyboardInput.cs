@@ -24,6 +24,7 @@ public class KeyboardInput : MonoBehaviour
                 
                 else
                 {
+                    _mouseInput.PressTile(c);
                     _textTilemap.SetCharacterAtCaret(c);
                 }
             }
