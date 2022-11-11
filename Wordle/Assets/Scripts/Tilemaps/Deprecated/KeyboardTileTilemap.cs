@@ -14,7 +14,6 @@ public class KeyboardTileTilemap : MonoBehaviour
     
     public Tilemap Tilemap;
     private KeyboardTilemap _keyboardTilemap;
-    
 
     private void Awake()
     {
@@ -37,17 +36,7 @@ public class KeyboardTileTilemap : MonoBehaviour
     {
         return _keyboardTilemap.TileNameToPosition[name];
     }
-    
-    /*
-    public void SetColor(string name, TileState tileState)
-    {
-        var color = TileStateToColor(tileState);
-        var position = TileNameToPosition(name);
-        PositionToTileState[position] = tileState;
-        SetColor(position, color);
-    }
-    */
-    
+
     public void ApplyColorOverlay(Vector3Int position, Color overlayColor)
     {
         if (!Tilemap.GetTile(position)) { return; }
