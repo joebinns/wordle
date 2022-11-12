@@ -1,10 +1,14 @@
 using Tilemaps;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class KeyboardAnimations : MonoBehaviour
 {
-    [SerializeField] private TilemapAnimator _tilemapAnimator;
+    [SerializeField] private TilemapAnimator _letterTilemapAnimator;
+    [SerializeField] private TilemapAnimator _blockTilemapAnimator;
     [SerializeField] private LetterTilemapTracker _keyboardLetterTilemapTracker;
+
+    [SerializeField] private Color _hoverColor;
     
     private Vector3Int _hoveredPosition = -Vector3Int.one;
     public Vector3Int HoveredPosition
@@ -27,20 +31,19 @@ public class KeyboardAnimations : MonoBehaviour
         if (_keyboardLetterTilemapTracker.Contains(name))
         {
             var position = _keyboardLetterTilemapTracker.TileNameToPosition(name);
-            _tilemapAnimator.SmoothLoopTilePosition(position);
+            _letterTilemapAnimator.SmoothLoopTilePosition(position);
+            _blockTilemapAnimator.SmoothLoopTilePosition(position);
+            _blockTilemapAnimator.FlashTileColor(position, Color.white, _hoverColor, 0.05f);
         }
     }
 
     private void HoverTile(Vector3Int position)
     {
-        var color = Color.white;
-        color.a = 0.8f;
-        _tilemapAnimator.SetColor(position, color);
+        _blockTilemapAnimator.SetColor(position, _hoverColor);
     }
 
     private void UnHoverTile(Vector3Int position)
     {
-        var color = Color.white;
-        _tilemapAnimator.SetColor(position, color);
+        _blockTilemapAnimator.SetColor(position, Color.white);
     }
 }

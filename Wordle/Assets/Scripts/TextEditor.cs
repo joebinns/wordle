@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class TextEditor : MonoBehaviour
 {
     private bool _isEnabled = true;
-    private Vector3Int _caretPosition = Vector3Int.zero;
+    public Vector3Int _caretPosition = Vector3Int.zero;
     private List<string> _entries = new List<string>();
     
     [SerializeField] private BlockTilemapHandler _guessesBlockTilemapHandler;

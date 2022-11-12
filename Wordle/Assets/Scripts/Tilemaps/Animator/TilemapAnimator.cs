@@ -14,23 +14,35 @@ public class TilemapAnimator : MonoBehaviour
         _tilemap = GetComponent<Tilemap>();
     }
 
-    public void SetColor(Vector3Int position, Color color)
+    public void FlashTileColor(Vector3Int tile, Color a, Color b, float duration)
     {
-        if (!_tilemap.HasTile(position)) { return; }
-        _tilemap.SetTileFlags(position, TileFlags.None);
-        _tilemap.SetColor(position, color);
-        _tilemap.SetTileFlags(position, TileFlags.LockColor);
+        StartCoroutine(FlashTileColorCoroutine(tile, a, b, duration));
     }
 
-    public void SmoothLoopTilePosition(Vector3Int position)
+    private IEnumerator FlashTileColorCoroutine(Vector3Int tile, Color a, Color b, float duration)
     {
-        StartCoroutine(SmoothLoopTilePositionOnceCoroutine(position, Vector3.zero, Vector3.down * 0.2f));
+        SetColor(tile, b);
+        yield return new WaitForSeconds(duration);
+        SetColor(tile, a);
     }
     
-    private IEnumerator SmoothLoopTilePositionOnceCoroutine(Vector3Int position, Vector3 a, Vector3 b)
+    public void SetColor(Vector3Int tile, Color color)
     {
-        yield return StartCoroutine(SmoothTranslateTilePosition(position, a, b));
-        StartCoroutine(SmoothTranslateTilePosition(position, b, a));
+        if (!_tilemap.HasTile(tile)) { return; }
+        _tilemap.SetTileFlags(tile, TileFlags.None);
+        _tilemap.SetColor(tile, color);
+        _tilemap.SetTileFlags(tile, TileFlags.LockColor);
+    }
+
+    public void SmoothLoopTilePosition(Vector3Int tile)
+    {
+        StartCoroutine(SmoothLoopTilePositionOnceCoroutine(tile, Vector3.zero, Vector3.down * 0.15f));
+    }
+    
+    private IEnumerator SmoothLoopTilePositionOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b)
+    {
+        yield return StartCoroutine(SmoothTranslateTilePosition(tile, a, b));
+        StartCoroutine(SmoothTranslateTilePosition(tile, b, a));
     }
     
     // TODO: Also lerp the letters on the keys.
