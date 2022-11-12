@@ -14,6 +14,7 @@ namespace Tilemaps
         private void Awake()
         {
             _tilemap = GetComponent<Tilemap>();
+            _tileNameToPosition = MapTileNamesToPositions();
         }
 
         private Dictionary<string, Vector3Int> _tileNameToPosition = new Dictionary<string, Vector3Int>();

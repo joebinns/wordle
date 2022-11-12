@@ -91,6 +91,6 @@ public class WordChecker : MonoBehaviour
     private void Reset()
     {
         _word = _dictionary.GetRandomWord();
-        //Debug.Log(_word);
+        Debug.Log(_word);
     }
 }

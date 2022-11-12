@@ -8,7 +8,7 @@ namespace Tilemaps
         private Tilemap _tilemap;
         public Tilemap Tilemap => _tilemap;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _tilemap = GetComponent<Tilemap>();
         }

@@ -1130,6 +1130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63d90f2403fca2408131f21cca93a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _textEditor: {fileID: 875783540}
+  _keyboardLetterTilemapTracker: {fileID: 440077915}
+  _keyboardBlockTilemapHandler: {fileID: 176464404}
 --- !u!4 &247183569
 Transform:
   m_ObjectHideFlags: 0
@@ -2045,6 +2048,7 @@ MonoBehaviour:
   _guessesBlockTilemapHandler: {fileID: 221659437}
   _keyboardBlockTilemapHandler: {fileID: 176464404}
   _guessesLetterTilemapHandler: {fileID: 1675965096}
+  _keyboardLetterTilemapTracker: {fileID: 440077915}
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0

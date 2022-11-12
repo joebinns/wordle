@@ -15,6 +15,30 @@ namespace Tilemaps
         
         private Dictionary<Vector3Int, TileState> _positionToTileState = new Dictionary<Vector3Int, TileState>();
 
+        protected override void Awake()
+        {
+            base.Awake();
+            _positionToTileState = InitialisePositionsToTileStates();
+        }
+        
+        private Dictionary<Vector3Int, TileState> InitialisePositionsToTileStates()
+        {
+            var positionToTileState = new Dictionary<Vector3Int, TileState>();
+            for (int x = 0; x < Tilemap.size.x; x++)
+            {
+                for (int y = 0; y < Tilemap.size.y; y++)
+                {
+                    for (int z = 0; z < Tilemap.size.z; z++)
+                    {
+                        var position = new Vector3Int(x, -y, z);
+                        if (!Tilemap.HasTile(position)) { continue; }
+                        positionToTileState[position] = TileState.UnGuessed;
+                    }
+                }
+            }
+            return positionToTileState;
+        }
+        
         public void ApplyColorOverlay(Vector3Int position, Color overlayColor)
         {
             if (!Tilemap.HasTile(position)) { return; }

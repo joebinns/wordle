@@ -5,9 +5,9 @@ using UnityEngine.Tilemaps;
 
 public class MouseInput : MonoBehaviour
 {
-    private TextEditor _textEditor;
-    private LetterTilemapTracker  _keyboardLetterTilemapTracker;
-    private BlockTilemapHandler _keyboardBlockTilemapHandler;
+    [SerializeField] private TextEditor _textEditor;
+    [SerializeField] private LetterTilemapTracker  _keyboardLetterTilemapTracker;
+    [SerializeField] private BlockTilemapHandler _keyboardBlockTilemapHandler;
 
     private Vector3Int _hoveredPosition = -Vector3Int.one;
     public Vector3Int HoveredPosition
@@ -22,13 +22,6 @@ public class MouseInput : MonoBehaviour
                 HoverTile(_hoveredPosition);
             }
         }
-    }
-
-    private void Awake()
-    {
-        _textEditor = FindObjectOfType<TextEditor>();
-        _keyboardLetterTilemapTracker = FindObjectOfType<LetterTilemapTracker>();
-        _keyboardBlockTilemapHandler = FindObjectOfType<BlockTilemapHandler>();
     }
 
     private void Update()
@@ -68,8 +61,7 @@ public class MouseInput : MonoBehaviour
         }
     }
     
-    // TODO: Add button press (darken button then lighten)?
-    private IEnumerator PressTileCoroutine(Vector3Int position) // Call this from KeyboardInput.
+    private IEnumerator PressTileCoroutine(Vector3Int position) // Also call this from KeyboardInput.
     {
         yield return StartCoroutine(LerpTilePosition(position, 0, -0.2f));
         yield return StartCoroutine(LerpTilePosition(position, -0.2f, 0));

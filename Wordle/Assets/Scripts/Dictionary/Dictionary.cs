@@ -24,6 +24,6 @@ public class Dictionary : MonoBehaviour
     public string GetRandomWord()
     {
         var index = Random.Range(0, _dictionary.Count);
-        return _dictionary[index]; 
+        return _dictionary[index];
     }
 }
