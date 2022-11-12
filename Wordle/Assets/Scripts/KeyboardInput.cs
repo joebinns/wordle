@@ -3,12 +3,12 @@ using UnityEngine;
 public class KeyboardInput : MonoBehaviour
 {
     private TextEditor _textEditor;
-    private MouseInput _mouseInput;
+    private KeyboardAnimations _keyboardAnimations;
 
     private void Awake()
     {
         _textEditor = FindObjectOfType<TextEditor>();
-        _mouseInput = FindObjectOfType<MouseInput>();
+        _keyboardAnimations = FindObjectOfType<KeyboardAnimations>();
     }
 
     private void Update()
@@ -24,7 +24,7 @@ public class KeyboardInput : MonoBehaviour
                 
                 else
                 {
-                    _mouseInput.PressTile(c);
+                    _keyboardAnimations.PressTile(c);
                     _textEditor.SetCharacterAtCaret(c);
                 }
             }

@@ -38,29 +38,7 @@ namespace Tilemaps
             }
             return positionToTileState;
         }
-        
-        public void ApplyColorOverlay(Vector3Int position, Color overlayColor)
-        {
-            if (!Tilemap.HasTile(position)) { return; }
-            var color = TileStateToTile(_positionToTileState[position]).color;
-            color *= overlayColor;
-            SetColor(position, color);
-        }
 
-        public void ResetColorOverlay(Vector3Int position)
-        {
-            if (!Tilemap.HasTile(position)) { return; }
-            var color = TileStateToTile(_positionToTileState[position]).color;
-            SetColor(position, color);
-        }
-    
-        private void SetColor(Vector3Int position, Color color)
-        {
-            Tilemap.SetTileFlags(position, TileFlags.None);
-            Tilemap.SetColor(position, color);
-            Tilemap.SetTileFlags(position, TileFlags.LockColor);
-        }
-        
         public void SetTileStateCautious(Vector3Int position, TileState tileState)
         {
             if (tileState > _positionToTileState[position])
@@ -76,7 +54,7 @@ namespace Tilemaps
             Tilemap.SetTile(position, tile);
         }
         
-        private Tile TileStateToTile(TileState tileState)
+        public Tile TileStateToTile(TileState tileState)
         {
             Tile tile = null;
             switch (tileState)
