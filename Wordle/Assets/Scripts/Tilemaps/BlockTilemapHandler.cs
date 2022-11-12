@@ -99,7 +99,10 @@ namespace Tilemaps
         
         protected override void ResetTile(Vector3Int position)
         {
-            SetTileState(position, TileState.UnGuessed);
+            if (Tilemap.HasTile(position))
+            {
+                SetTileState(position, TileState.UnGuessed);
+            }
         }
     }
 }
