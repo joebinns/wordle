@@ -14,6 +14,18 @@ public class TilemapAnimator : MonoBehaviour
     }
 
     #region Tile
+
+    public void SetTileDelayed(Vector3Int position, Tile tile, float delay)
+    {
+        StartCoroutine(SetTileDelayedCoroutine(position, tile, delay));
+    }
+
+    private IEnumerator SetTileDelayedCoroutine(Vector3Int position, Tile tile, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _tilemap.SetTile(position, tile);
+    }
+    
     public void FlashTile(Vector3Int tile, Tile a, Tile b, float duration)
     {
         StartCoroutine(FlashTileCoroutine(tile, a, b, duration));
@@ -50,13 +62,27 @@ public class TilemapAnimator : MonoBehaviour
     #endregion
     
     #region Rotate
-    public void SmoothFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
+    public void SmoothTrickHalfFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
+    {
+        var a = Vector3.zero;
+        var b = Vector3.right * 90f;
+        StartCoroutine(SmoothTrickHalfFlipTileOnceCoroutine(tile, opposite ? b : a, opposite ? a : b, duration));
+    }
+
+    private IEnumerator SmoothTrickHalfFlipTileOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b, float duration)
+    {
+        duration /= 2f;
+        yield return StartCoroutine(SmoothRotateTile(tile, a, b, duration));
+        StartCoroutine(SmoothRotateTile(tile, -b, a, duration)); // TODO: is a and b right? does this work?
+    }
+    
+    public void SmoothHalfFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
     {
         var a = Vector3.zero;
         var b = Vector3.right * 180f;
         StartCoroutine(SmoothRotateTile(tile, opposite ? b : a, opposite ? a : b, duration));
     }
-
+    
     private IEnumerator SmoothRotateTile(Vector3Int tile, Vector3 start, Vector3 end, float duration)
     {
         _tilemap.SetTileFlags(tile, TileFlags.None);

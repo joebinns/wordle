@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -34,20 +36,34 @@ public class GuessesAnimations : MonoBehaviour
         _textEditor = FindObjectOfType<TextEditor>();
     }
 
-    public void HighlightEmptyTiles()
+    public void HighlightTiles(List<Vector3Int> positions)
     {
-        var position = _textEditor.CaretPosition;
-        
-        for (int x = 0; x < _textEditor.WordLength; x++)
+        foreach (var position in positions)
         {
-            position.x = x;
+            var duration = 0.5f;
+            _blockTilemapAnimator.FlashTile(position, _default, _select, duration * 1.2f);
+            //_blockTilemapAnimator.SmoothFlipTileOnce(position, duration);
+            //_letterTilemapAnimator.SmoothFlipTileOnce(position, duration, true);
+        }
+    }
 
-            if (_letterTilemapHandler.Tilemap.HasTile(position)) { continue; }
+    public void RevealGuessTiles(Dictionary<Vector3Int, Tile> positionToTile)
+    {
+        StartCoroutine(RevealGuessTilesCoroutine(positionToTile));
+    }
+
+    private IEnumerator RevealGuessTilesCoroutine(Dictionary<Vector3Int, Tile> positionToTile)
+    {
+        foreach (var position in positionToTile.Keys)
+        {
+            var tile = positionToTile[position];
             
-            var flashDuration = 0.5f;
-            _blockTilemapAnimator.FlashTile(position, _default, _select, flashDuration * 1.2f);
-            _blockTilemapAnimator.SmoothFlipTileOnce(position, flashDuration);
-            _letterTilemapAnimator.SmoothFlipTileOnce(position, flashDuration, true);
+            var duration = 0.3f;
+            _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
+            _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
+            _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
+            
+            yield return new WaitForSeconds(duration);
         }
     }
     

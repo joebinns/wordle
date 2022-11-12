@@ -17,10 +17,13 @@ public class TextEditor : MonoBehaviour
 
     public float WordLength => _guessesBlockTilemapHandler.Tilemap.size.x;
 
+    private GuessesAnimations _guessesAnimations;
+
     private void Awake()
     {
         _guessesLetterTilemapHandler = FindObjectOfType<LetterTilemapHandler>();
         _wordChecker = FindObjectOfType<WordChecker>();
+        _guessesAnimations = FindObjectOfType<GuessesAnimations>();
     }
 
     private void OnEnable()
@@ -96,16 +99,17 @@ public class TextEditor : MonoBehaviour
     private void ApplyTileStates(string word, Dictionary<int, TileState> indexToTileState)
     {
         var position = new Vector3Int(0, CaretPosition.y, 0);
-        
+        Dictionary<Vector3Int, Tile> positionToTile = new Dictionary<Vector3Int, Tile>();
         for (int x = 0; x < word.Length; x++)
         {
             position.x = x;
             var character = word[x];
             var tileState = indexToTileState[x];
-            _guessesBlockTilemapHandler.SetTileState(position, tileState);
+            positionToTile[position] = _guessesBlockTilemapHandler.TileStateToTile(tileState);
             var keyboardPosition = _keyboardLetterTilemapTracker.TileNameToPosition(character.ToString());
             _keyboardBlockTilemapHandler.SetTileStateCautious(keyboardPosition, tileState);
         }
+        _guessesAnimations.RevealGuessTiles(positionToTile);
     }
 
     private bool CheckIfEntryIsValid()
@@ -123,9 +127,46 @@ public class TextEditor : MonoBehaviour
                 {
                     isWordValid = true;
                 }
+                else
+                {
+                    _guessesAnimations.HighlightTiles(GetTiles());
+                }
+            }
+            else
+            {
+                _guessesAnimations.HighlightTiles(GetTiles());
             }
         }
+        else
+        {
+            _guessesAnimations.HighlightTiles(GetEmptyTiles());
+        }
         return isWordValid;
+    }
+
+    private List<Vector3Int> GetTiles()
+    {
+        var tiles = new List<Vector3Int>();
+        var position = CaretPosition;
+        for (int x = 0; x < WordLength; x++)
+        {
+            position.x = x;
+            tiles.Add(position);
+        }
+        return tiles;
+    }
+    
+    private List<Vector3Int> GetEmptyTiles()
+    {
+        var emptyTiles = new List<Vector3Int>();
+        var position = CaretPosition;
+        for (int x = 0; x < WordLength; x++)
+        {
+            position.x = x;
+            if (_guessesLetterTilemapHandler.Tilemap.HasTile(position)) { continue; }
+            emptyTiles.Add(position);
+        }
+        return emptyTiles;
     }
 
     public void EnterText()
@@ -133,11 +174,7 @@ public class TextEditor : MonoBehaviour
         if (!_isEnabled) { return; }
 
         bool isEntryValid = CheckIfEntryIsValid();
-        if (!isEntryValid)
-        {
-            FindObjectOfType<GuessesAnimations>().HighlightEmptyTiles();
-            return;
-        }
+        if (!isEntryValid) { return; }
 
         var word = GetWord(CaretPosition.y);
         var indexToTileState = new Dictionary<int, TileState>();

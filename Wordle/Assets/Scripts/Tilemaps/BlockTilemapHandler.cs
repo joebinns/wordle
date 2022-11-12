@@ -54,6 +54,8 @@ namespace Tilemaps
             Tilemap.SetTile(position, tile);
         }
         
+        public void GetTile(Vector3Int position, TileState tileState) => TileStateToTile(tileState);
+
         public Tile TileStateToTile(TileState tileState)
         {
             Tile tile = null;
