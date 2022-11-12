@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class TextEditor : MonoBehaviour
 {
     private bool _isEnabled = true;
-    public Vector3Int _caretPosition = Vector3Int.zero;
+    public Vector3Int CaretPosition = Vector3Int.zero;
     private List<string> _entries = new List<string>();
     
     [SerializeField] private BlockTilemapHandler _guessesBlockTilemapHandler;
@@ -14,6 +14,8 @@ public class TextEditor : MonoBehaviour
     [SerializeField] private LetterTilemapHandler _guessesLetterTilemapHandler;
     [SerializeField] private LetterTilemapTracker _keyboardLetterTilemapTracker;
     private WordChecker _wordChecker;
+
+    public float WordLength => _guessesBlockTilemapHandler.Tilemap.size.x;
 
     private void Awake()
     {
@@ -39,19 +41,19 @@ public class TextEditor : MonoBehaviour
         var tile = FindTileByCharacter(character);
         if (tile != null)
         {
-            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(_caretPosition)) { return; }
+            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition)) { return; }
             
             // Set current tile
-            _guessesLetterTilemapHandler.Tilemap.SetTile(_caretPosition, tile);
-            _caretPosition.x++;
+            _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, tile);
+            CaretPosition.x++;
         }
         else
         {
-            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(_caretPosition + Vector3Int.left)) { return; }
+            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition + Vector3Int.left)) { return; }
 
             // Delete previous tile
-            _caretPosition.x--;
-            _guessesLetterTilemapHandler.Tilemap.SetTile(_caretPosition, null);
+            CaretPosition.x--;
+            _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, null);
         }
     }
 
@@ -93,7 +95,7 @@ public class TextEditor : MonoBehaviour
 
     private void ApplyTileStates(string word, Dictionary<int, TileState> indexToTileState)
     {
-        var position = new Vector3Int(0, _caretPosition.y, 0);
+        var position = new Vector3Int(0, CaretPosition.y, 0);
         
         for (int x = 0; x < word.Length; x++)
         {
@@ -109,10 +111,10 @@ public class TextEditor : MonoBehaviour
     private bool CheckIfEntryIsValid()
     {
         var isWordValid = false;
-        var isLineFull = (!_guessesBlockTilemapHandler.Tilemap.HasTile(_caretPosition));
+        var isLineFull = (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition));
         if (isLineFull)
         {
-            var word = GetWord(_caretPosition.y);
+            var word = GetWord(CaretPosition.y);
             var isWordRecognised = _wordChecker.IsWordRecognised(word);
             if (isWordRecognised)
             {
@@ -131,9 +133,13 @@ public class TextEditor : MonoBehaviour
         if (!_isEnabled) { return; }
 
         bool isEntryValid = CheckIfEntryIsValid();
-        if (!isEntryValid) { return;}
+        if (!isEntryValid)
+        {
+            FindObjectOfType<GuessesAnimations>().HighlightEmptyTiles();
+            return;
+        }
 
-        var word = GetWord(_caretPosition.y);
+        var word = GetWord(CaretPosition.y);
         var indexToTileState = new Dictionary<int, TileState>();
         
         // Set tile states based on guess
@@ -159,9 +165,9 @@ public class TextEditor : MonoBehaviour
 
     private void NextRow()
     {
-        _caretPosition.x = 0;
-        _caretPosition.y--;
-        if (!_guessesBlockTilemapHandler.Tilemap.HasTile(_caretPosition))
+        CaretPosition.x = 0;
+        CaretPosition.y--;
+        if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition))
         {
             TriggerReset();
         }
@@ -194,6 +200,6 @@ public class TextEditor : MonoBehaviour
         
     private void ResetCaret()
     {
-        _caretPosition = Vector3Int.zero;
+        CaretPosition = Vector3Int.zero;
     }
 }

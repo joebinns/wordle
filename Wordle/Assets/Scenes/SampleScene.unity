@@ -2103,7 +2103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a6a8dd7f45fea4abb8ae6157b1c4c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _caretPosition: {x: 0, y: 0, z: 0}
+  CaretPosition: {x: 0, y: 0, z: 0}
   _guessesBlockTilemapHandler: {fileID: 221659437}
   _keyboardBlockTilemapHandler: {fileID: 176464404}
   _guessesLetterTilemapHandler: {fileID: 1675965096}
@@ -2120,7 +2120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbccaced7c5f4a84a9bb60300cb3de2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilemapAnimator: {fileID: 221659438}
+  _blockTilemapAnimator: {fileID: 221659438}
+  _letterTilemapAnimator: {fileID: 1675965097}
+  _letterTilemapHandler: {fileID: 1675965096}
+  _default: {fileID: 11400000, guid: 331d405687c521040893c53d5f28260c, type: 2}
+  _select: {fileID: 11400000, guid: 9d8809d3cdf339f499b4e488fe2102f6, type: 2}
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,6 +2278,7 @@ GameObject:
   - component: {fileID: 1675965095}
   - component: {fileID: 1675965094}
   - component: {fileID: 1675965096}
+  - component: {fileID: 1675965097}
   m_Layer: 0
   m_Name: Letter Tilemap
   m_TagString: Untagged
@@ -2393,6 +2398,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce90f512e29c5b49b7131338266fa43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1675965097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675965092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43cb7aeebd452e547b1cd5f48a295cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2062135755
