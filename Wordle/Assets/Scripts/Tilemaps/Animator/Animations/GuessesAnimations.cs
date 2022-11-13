@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -85,17 +86,24 @@ public class GuessesAnimations : MonoBehaviour
 
     private IEnumerator RevealGuessTilesCoroutine(Dictionary<Vector3Int, Tile> positionToTile)
     {
+        var duration = 0.3f;
+        var pitch = 1.0f;
         foreach (var position in positionToTile.Keys)
         {
             var tile = positionToTile[position];
 
-            var duration = 0.3f;
+            // TODO: Identify which tile needs which sound and particle effects
+            // TODO: Increase pitch
+            AudioManager.Instance.SetPitch("Flip", pitch);
+            AudioManager.Instance.Play("Flip");
+
             _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
             _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             yield return new WaitForSeconds(duration);
+            pitch += 0.5f;
         }
     }
     

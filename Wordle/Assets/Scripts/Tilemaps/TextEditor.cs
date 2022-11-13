@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using Tilemaps;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -44,7 +45,9 @@ public class TextEditor : MonoBehaviour
         var tile = FindTileByCharacter(character);
         if (tile != null)
         {
-            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition)) { return; }
+            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition)) { AudioManager.Instance.Play("Keyboard Secondary"); return; }
+            
+            AudioManager.Instance.Play("Keyboard Primary");
             
             // Set current tile
             _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, tile);
@@ -52,6 +55,7 @@ public class TextEditor : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.Play("Keyboard Secondary");
             if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition + Vector3Int.left)) { return; }
 
             // Delete previous tile
@@ -190,8 +194,9 @@ public class TextEditor : MonoBehaviour
         if (!_isEnabled) { return; }
 
         bool isEntryValid = CheckIfEntryIsValid();
-        if (!isEntryValid) { return; }
+        if (!isEntryValid) { AudioManager.Instance.Play("Error"); return; }
 
+        AudioManager.Instance.Play("Keyboard Secondary");
         var word = GetWord(CaretPosition.y);
         var indexToTileState = new Dictionary<int, TileState>();
         
