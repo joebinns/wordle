@@ -82,6 +82,14 @@ public class TilemapAnimator : MonoBehaviour
         var b = Vector3.right * 180f;
         StartCoroutine(SmoothRotateTile(tile, opposite ? b : a, opposite ? a : b, duration));
     }
+
+    public void OscillateHalfFlipTileOnce(Vector3Int tile, float duration)
+    {
+        var axis = new Ray(Vector3.up * 0.5f, Vector3.right); // TODO: Replace origin with real tile size
+        var a = 270f;
+        var b = 360f;
+        StartCoroutine(SmoothRotateTileAroundAxis(tile, a, b, axis, duration));
+    }
     
     private IEnumerator SmoothRotateTile(Vector3Int tile, Vector3 start, Vector3 end, float duration)
     {
@@ -101,6 +109,34 @@ public class TilemapAnimator : MonoBehaviour
         Matrix4x4 targetMatrix = Matrix4x4.Rotate(Quaternion.Euler(end));
         _tilemap.SetTransformMatrix(tile, targetMatrix);
     }
+    
+    private IEnumerator SmoothRotateTileAroundAxis(Vector3Int tile, float start, float end, Ray axis, float duration)
+    {
+        _tilemap.SetTileFlags(tile, TileFlags.None);
+        
+        var t = 0f;
+        while (t < duration)
+        {
+            var progress = t / duration;
+            var rotation = start + ((end - start) * progress);
+            Matrix4x4 newMatrix = RotationMatrixAroundAxis(axis, rotation);
+            _tilemap.SetTransformMatrix(tile, newMatrix);
+            t += Time.deltaTime;
+            yield return null;
+        }
+        Matrix4x4 targetMatrix = RotationMatrixAroundAxis(axis, end);
+        _tilemap.SetTransformMatrix(tile, targetMatrix);
+    }
+    
+    public Matrix4x4 RotationMatrixAroundAxis(Ray axis, float rotation)
+    {
+        /*
+        return Matrix4x4.TRS(-axis.origin, Quaternion.AngleAxis(rotation, axis.direction), Vector3.one)
+               * Matrix4x4.TRS(axis.origin, Quaternion.identity, Vector3.one);
+        */
+        return Matrix4x4.TRS(axis.origin, Quaternion.AngleAxis(rotation, axis.direction), Vector3.one)
+               * Matrix4x4.TRS(axis.origin, Quaternion.identity, Vector3.one);
+    }
     #endregion
 
     #region Translate
@@ -109,14 +145,12 @@ public class TilemapAnimator : MonoBehaviour
     {
         StartCoroutine(SmoothShakeTileOnceCoroutine(tile, a, b, duration));
     }
-    
+
     private IEnumerator SmoothShakeTileOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b, float duration)
     {
-        duration /= 4f;
-        yield return StartCoroutine(SmoothTranslateTile(tile, a, b, duration));
-        yield return StartCoroutine(SmoothTranslateTile(tile, b, a, duration));
-        yield return StartCoroutine(SmoothTranslateTile(tile, a, -b, duration));
-        StartCoroutine(SmoothTranslateTile(tile, -b, a, duration));
+        duration /= 2f;
+        yield return StartCoroutine(SmoothLoopTilePositionOnceCoroutine(tile, a, b, duration));
+        yield return StartCoroutine(SmoothLoopTilePositionOnceCoroutine(tile, a, -b, duration));
     }
     
     public void SmoothLoopTilePositionOnce(Vector3Int tile, Vector3 a, Vector3 b, float duration)
@@ -126,8 +160,9 @@ public class TilemapAnimator : MonoBehaviour
     
     private IEnumerator SmoothLoopTilePositionOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b, float duration)
     {
+        duration /= 2f;
         yield return StartCoroutine(SmoothTranslateTile(tile, a, b, duration));
-        StartCoroutine(SmoothTranslateTile(tile, b, a, duration));
+        yield return StartCoroutine(SmoothTranslateTile(tile, b, a, duration));
     }
     
     private IEnumerator SmoothTranslateTile(Vector3Int tile, Vector3 start, Vector3 end, float duration)

@@ -47,13 +47,34 @@ public class GuessesAnimations : MonoBehaviour
         }
     }
     
-    public void ShakeTiles(List<Vector3Int> positions)
+    public void ShakeTilesReactive(List<Vector3Int> primary, List<Vector3Int> secondary, Vector3 a, Vector3 b)
+    {
+        StartCoroutine(ShakeTilesReactiveCoroutine(primary, secondary, a, b));
+    }
+
+    private IEnumerator ShakeTilesReactiveCoroutine(List<Vector3Int> primary, List<Vector3Int> secondary, Vector3 a, Vector3 b)
+    {
+        var duration = 0.25f;
+        ShakeTiles(primary, a, b, duration);
+        yield return new WaitForSeconds(duration / 2f);
+        LoopTilePositions(secondary, a, -b, duration / 2f);
+    }
+
+    private void LoopTilePositions(List<Vector3Int> positions, Vector3 a, Vector3 b, float duration = 0.25f)
     {
         foreach (var position in positions)
         {
-            var duration = 0.25f;
-            _blockTilemapAnimator.SmoothShakeTileOnce(position, Vector3.zero, Vector3.right * 1f, duration);
-            _letterTilemapAnimator.SmoothShakeTileOnce(position, Vector3.zero, Vector3.right * 1f, duration);
+            _blockTilemapAnimator.SmoothLoopTilePositionOnce(position, a, b, duration);
+            _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, a, b, duration);
+        }
+    }
+    
+    public void ShakeTiles(List<Vector3Int> positions, Vector3 a, Vector3 b, float duration = 0.25f)
+    {
+        foreach (var position in positions)
+        {
+            _blockTilemapAnimator.SmoothShakeTileOnce(position, a, b, duration);
+            _letterTilemapAnimator.SmoothShakeTileOnce(position, a, b, duration);
         }
     }
     
@@ -67,12 +88,13 @@ public class GuessesAnimations : MonoBehaviour
         foreach (var position in positionToTile.Keys)
         {
             var tile = positionToTile[position];
-            
+
             var duration = 0.3f;
             _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
             _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
-            
+            //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
+            //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             yield return new WaitForSeconds(duration);
         }
     }

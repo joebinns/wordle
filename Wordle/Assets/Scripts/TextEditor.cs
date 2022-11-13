@@ -130,19 +130,19 @@ public class TextEditor : MonoBehaviour
                 else
                 {
                     _guessesAnimations.HighlightTiles(GetTiles());
-                    _guessesAnimations.ShakeTiles(GetTiles());
+                    _guessesAnimations.ShakeTiles(GetTiles(), Vector3.zero, Vector3.right * 1f);
                 }
             }
             else
             {
                 _guessesAnimations.HighlightTiles(GetTiles());
-                _guessesAnimations.ShakeTiles(GetTiles());
+                _guessesAnimations.ShakeTiles(GetTiles(), Vector3.zero, Vector3.right * 1f);
             }
         }
         else
         {
             _guessesAnimations.HighlightTiles(GetEmptyTiles());
-            _guessesAnimations.ShakeTiles(GetEmptyTiles());
+            _guessesAnimations.ShakeTilesReactive(GetEmptyTiles(), GetNonEmptyTiles(), Vector3.zero, Vector3.right * 1f);
         }
         return isWordValid;
     }
@@ -157,6 +157,19 @@ public class TextEditor : MonoBehaviour
             tiles.Add(position);
         }
         return tiles;
+    }
+    
+    private List<Vector3Int> GetNonEmptyTiles()
+    {
+        var emptyTiles = new List<Vector3Int>();
+        var position = CaretPosition;
+        for (int x = 0; x < WordLength; x++)
+        {
+            position.x = x;
+            if (!_guessesLetterTilemapHandler.Tilemap.HasTile(position)) { continue; }
+            emptyTiles.Add(position);
+        }
+        return emptyTiles;
     }
     
     private List<Vector3Int> GetEmptyTiles()
