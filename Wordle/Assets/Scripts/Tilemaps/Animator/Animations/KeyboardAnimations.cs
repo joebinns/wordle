@@ -31,8 +31,8 @@ public class KeyboardAnimations : MonoBehaviour
         if (_keyboardLetterTilemapTracker.Contains(name))
         {
             var position = _keyboardLetterTilemapTracker.TileNameToPosition(name);
-            _letterTilemapAnimator.SmoothLoopTilePositionOnce(position);
-            _blockTilemapAnimator.SmoothLoopTilePositionOnce(position);
+            _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.05f);
+            _blockTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.05f);
             _blockTilemapAnimator.FlashTileColor(position, Color.white, _hoverColor, 0.05f);
         }
     }

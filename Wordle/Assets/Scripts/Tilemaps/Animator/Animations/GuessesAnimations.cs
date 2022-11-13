@@ -46,7 +46,17 @@ public class GuessesAnimations : MonoBehaviour
             //_letterTilemapAnimator.SmoothFlipTileOnce(position, duration, true);
         }
     }
-
+    
+    public void ShakeTiles(List<Vector3Int> positions)
+    {
+        foreach (var position in positions)
+        {
+            var duration = 0.25f;
+            _blockTilemapAnimator.SmoothShakeTileOnce(position, Vector3.zero, Vector3.right * 1f, duration);
+            _letterTilemapAnimator.SmoothShakeTileOnce(position, Vector3.zero, Vector3.right * 1f, duration);
+        }
+    }
+    
     public void RevealGuessTiles(Dictionary<Vector3Int, Tile> positionToTile)
     {
         StartCoroutine(RevealGuessTilesCoroutine(positionToTile));

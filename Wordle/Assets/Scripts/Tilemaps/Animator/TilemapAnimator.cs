@@ -104,22 +104,37 @@ public class TilemapAnimator : MonoBehaviour
     #endregion
 
     #region Translate
-    public void SmoothLoopTilePositionOnce(Vector3Int tile)
+
+    public void SmoothShakeTileOnce(Vector3Int tile, Vector3 a, Vector3 b, float duration)
     {
-        StartCoroutine(SmoothLoopTilePositionOnceCoroutine(tile, Vector3.zero, Vector3.down * 0.15f));
+        StartCoroutine(SmoothShakeTileOnceCoroutine(tile, a, b, duration));
     }
     
-    private IEnumerator SmoothLoopTilePositionOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b)
+    private IEnumerator SmoothShakeTileOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b, float duration)
     {
-        yield return StartCoroutine(SmoothTranslateTile(tile, a, b));
-        StartCoroutine(SmoothTranslateTile(tile, b, a));
+        duration /= 4f;
+        yield return StartCoroutine(SmoothTranslateTile(tile, a, b, duration));
+        yield return StartCoroutine(SmoothTranslateTile(tile, b, a, duration));
+        yield return StartCoroutine(SmoothTranslateTile(tile, a, -b, duration));
+        StartCoroutine(SmoothTranslateTile(tile, -b, a, duration));
     }
     
-    private IEnumerator SmoothTranslateTile(Vector3Int tile, Vector3 start, Vector3 end)
+    public void SmoothLoopTilePositionOnce(Vector3Int tile, Vector3 a, Vector3 b, float duration)
+    {
+        StartCoroutine(SmoothLoopTilePositionOnceCoroutine(tile, a, b, duration));
+    }
+    
+    private IEnumerator SmoothLoopTilePositionOnceCoroutine(Vector3Int tile, Vector3 a, Vector3 b, float duration)
+    {
+        yield return StartCoroutine(SmoothTranslateTile(tile, a, b, duration));
+        StartCoroutine(SmoothTranslateTile(tile, b, a, duration));
+    }
+    
+    private IEnumerator SmoothTranslateTile(Vector3Int tile, Vector3 start, Vector3 end, float duration)
     {
         _tilemap.SetTileFlags(tile, TileFlags.None);
+        
         var t = 0f;
-        var duration = 0.05f; // TODO: Change to curve OR eased lerp
         while (t < duration)
         {
             var progress = t / duration;

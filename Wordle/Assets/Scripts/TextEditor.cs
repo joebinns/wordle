@@ -130,16 +130,19 @@ public class TextEditor : MonoBehaviour
                 else
                 {
                     _guessesAnimations.HighlightTiles(GetTiles());
+                    _guessesAnimations.ShakeTiles(GetTiles());
                 }
             }
             else
             {
                 _guessesAnimations.HighlightTiles(GetTiles());
+                _guessesAnimations.ShakeTiles(GetTiles());
             }
         }
         else
         {
             _guessesAnimations.HighlightTiles(GetEmptyTiles());
+            _guessesAnimations.ShakeTiles(GetEmptyTiles());
         }
         return isWordValid;
     }
