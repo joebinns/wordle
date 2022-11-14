@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Audio;
 using Tilemaps;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class GuessesAnimations : MonoBehaviour
 
     [SerializeField] private Tile _default;
     [SerializeField] private Tile _select;
+
+    [SerializeField] private ParticleSystem _semiParticleSystem;
+    [SerializeField] private ParticleSystem _fullParticleSystem;
     
     private TextEditor _textEditor;
     
@@ -35,6 +39,28 @@ public class GuessesAnimations : MonoBehaviour
     private void Awake()
     {
         _textEditor = FindObjectOfType<TextEditor>();
+    }
+    
+    private IEnumerator PlayParticleSystem(ParticleSystem particleSystem, Vector3 position, float duration)
+    {
+        particleSystem.transform.position = position;
+        particleSystem.Play();
+        yield return new WaitForSeconds(duration);
+        particleSystem.Stop();
+    }
+    
+    private void PlayParticleSystemBurst(ParticleSystem particleSystem, Vector3 position)
+    {
+        // Set particle system speed
+        var main = particleSystem.main;
+
+        // Set particles start position
+        var emitParams = new ParticleSystem.EmitParams();
+        emitParams.position = position;
+        emitParams.applyShapeToPosition = true;
+
+        // Trigger particle emission burst
+        particleSystem.Emit(emitParams, 6);
     }
 
     public void HighlightTiles(List<Vector3Int> positions)
@@ -86,7 +112,7 @@ public class GuessesAnimations : MonoBehaviour
 
     private IEnumerator RevealGuessTilesCoroutine(Dictionary<Vector3Int, Tile> positionToTile)
     {
-        var duration = 0.3f;
+        var duration = 0.6f;
         var pitch = 1.0f;
         foreach (var position in positionToTile.Keys)
         {
@@ -102,7 +128,20 @@ public class GuessesAnimations : MonoBehaviour
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
-            yield return new WaitForSeconds(duration);
+
+            yield return new WaitForSeconds(duration / 2f);
+            if (tile.name == "correct_guess")
+            {
+                var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
+                StartCoroutine(PlayParticleSystem(_fullParticleSystem, worldPosition, duration));
+            }
+            else if (tile.name == "semi_correct_guess")
+            {
+                var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
+                PlayParticleSystemBurst(_semiParticleSystem, worldPosition);
+            }
+            yield return new WaitForSeconds(duration / 2f);
+            
             pitch += 0.5f;
         }
     }
