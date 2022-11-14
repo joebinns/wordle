@@ -1,5 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using Audio;
 using Tilemaps;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class KeyboardAnimations : MonoBehaviour
 {
@@ -20,6 +24,33 @@ public class KeyboardAnimations : MonoBehaviour
                 UnHoverTile(_hoveredPosition);
                 _hoveredPosition = value;
                 HoverTile(_hoveredPosition);
+            }
+        }
+    }
+    
+    public void RevealGuessTiles(Dictionary<Vector3Int, TileState> positionToTileState)
+    {
+        StartCoroutine(RevealGuessTilesCoroutine(positionToTileState));
+    }
+
+    private IEnumerator RevealGuessTilesCoroutine(Dictionary<Vector3Int, TileState> positionToTileState)
+    {
+        var duration = 0.6f;
+        var totalDuration = duration * positionToTileState.Count;
+        yield return new WaitForSeconds(totalDuration);
+        foreach (var position in positionToTileState.Keys)
+        {
+            var tileState = positionToTileState[position];
+            //_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().SetTileStateCautious(position, tileState);
+
+            var isTileUpdated = tileState >
+                              _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().PositionToTileState[position];
+            var tile = _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().TileStateToTile(tileState);
+            if (isTileUpdated)
+            {
+                _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
+                _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
+                _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             }
         }
     }

@@ -19,12 +19,14 @@ public class TextEditor : MonoBehaviour
     public float WordLength => _guessesBlockTilemapHandler.Tilemap.size.x;
 
     private GuessesAnimations _guessesAnimations;
+    private KeyboardAnimations _keyboardAnimations;
 
     private void Awake()
     {
         _guessesLetterTilemapHandler = FindObjectOfType<LetterTilemapHandler>();
         _wordChecker = FindObjectOfType<WordChecker>();
         _guessesAnimations = FindObjectOfType<GuessesAnimations>();
+        _keyboardAnimations = FindObjectOfType<KeyboardAnimations>();
     }
 
     private void OnEnable()
@@ -103,17 +105,21 @@ public class TextEditor : MonoBehaviour
     private void ApplyTileStates(string word, Dictionary<int, TileState> indexToTileState)
     {
         var position = new Vector3Int(0, CaretPosition.y, 0);
-        Dictionary<Vector3Int, Tile> positionToTile = new Dictionary<Vector3Int, Tile>();
+        Dictionary<Vector3Int, Tile> guessesPositionToTile = new Dictionary<Vector3Int, Tile>();
+        Dictionary<Vector3Int, TileState> keyboardPositionToTileState = new Dictionary<Vector3Int, TileState>();
         for (int x = 0; x < word.Length; x++)
         {
             position.x = x;
             var character = word[x];
             var tileState = indexToTileState[x];
-            positionToTile[position] = _guessesBlockTilemapHandler.TileStateToTile(tileState);
+            
+            guessesPositionToTile[position] = _guessesBlockTilemapHandler.TileStateToTile(tileState);
+            
             var keyboardPosition = _keyboardLetterTilemapTracker.TileNameToPosition(character.ToString());
-            _keyboardBlockTilemapHandler.SetTileStateCautious(keyboardPosition, tileState);
+            keyboardPositionToTileState[keyboardPosition] = tileState;
         }
-        _guessesAnimations.RevealGuessTiles(positionToTile);
+        _guessesAnimations.RevealGuessTiles(guessesPositionToTile);
+        _keyboardAnimations.RevealGuessTiles(keyboardPositionToTileState);
     }
 
     private bool CheckIfEntryIsValid()

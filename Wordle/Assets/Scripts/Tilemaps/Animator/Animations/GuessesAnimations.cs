@@ -41,11 +41,14 @@ public class GuessesAnimations : MonoBehaviour
         _textEditor = FindObjectOfType<TextEditor>();
     }
     
-    private IEnumerator PlayParticleSystem(ParticleSystem particleSystem, Vector3 position, float duration)
+    private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)
     {
         particleSystem.transform.position = position;
         particleSystem.Play();
-        yield return new WaitForSeconds(duration);
+    }
+    
+    private void StopParticleSystem(ParticleSystem particleSystem)
+    {
         particleSystem.Stop();
     }
     
@@ -128,22 +131,26 @@ public class GuessesAnimations : MonoBehaviour
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
-
-            yield return new WaitForSeconds(duration / 2f);
+            
+            var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
             if (tile.name == "correct_guess")
             {
-                var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
-                StartCoroutine(PlayParticleSystem(_fullParticleSystem, worldPosition, duration));
+                PlayParticleSystem(_fullParticleSystem, worldPosition);
             }
-            else if (tile.name == "semi_correct_guess")
+            else
             {
-                var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
+                StopParticleSystem(_fullParticleSystem);
+            }
+            yield return new WaitForSeconds(duration / 2f);
+            if (tile.name == "semi_correct_guess")
+            {
                 PlayParticleSystemBurst(_semiParticleSystem, worldPosition);
             }
             yield return new WaitForSeconds(duration / 2f);
             
             pitch += 0.5f;
         }
+        StopParticleSystem(_fullParticleSystem);
     }
     
     public void PressTile(char character)

@@ -14,6 +14,7 @@ namespace Tilemaps
         [SerializeField] private Tile un_guessed;
         
         private Dictionary<Vector3Int, TileState> _positionToTileState = new Dictionary<Vector3Int, TileState>();
+        public Dictionary<Vector3Int, TileState> PositionToTileState => _positionToTileState;
 
         protected override void Awake()
         {

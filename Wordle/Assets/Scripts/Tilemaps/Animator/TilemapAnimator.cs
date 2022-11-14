@@ -14,7 +14,6 @@ public class TilemapAnimator : MonoBehaviour
     }
 
     #region Tile
-
     public void SetTileDelayed(Vector3Int position, Tile tile, float delay)
     {
         StartCoroutine(SetTileDelayedCoroutine(position, tile, delay));
@@ -73,7 +72,7 @@ public class TilemapAnimator : MonoBehaviour
     {
         duration /= 2f;
         yield return StartCoroutine(SmoothRotateTile(tile, a, b, duration));
-        StartCoroutine(SmoothRotateTile(tile, -b, a, duration)); // TODO: is a and b right? does this work?
+        StartCoroutine(SmoothRotateTile(tile, -b, a, duration));
     }
     
     public void SmoothHalfFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
