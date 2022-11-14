@@ -5,6 +5,7 @@ using UnityEngine;
 public class WordChecker : MonoBehaviour
 {
     private string _word;
+    public string Word => _word;
     private Dictionary _dictionary;
 
     private void Awake()

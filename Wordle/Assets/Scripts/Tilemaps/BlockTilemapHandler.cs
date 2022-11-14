@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,7 +10,7 @@ namespace Tilemaps
     {
         // TileState
         
-        [SerializeField] private Tile correct_guess;
+        public Tile correct_guess;
         [SerializeField] private Tile semi_correct_guess;
         [SerializeField] private Tile wrong_guess;
         [SerializeField] private Tile un_guessed;
@@ -53,6 +55,17 @@ namespace Tilemaps
             _positionToTileState[position] = tileState;
             var tile = TileStateToTile(tileState);
             Tilemap.SetTile(position, tile);
+        }
+
+        public void SetTileStateDelayed(Vector3Int position, TileState tileState, float delay)
+        {
+            StartCoroutine(SetTileStateDelayedCoroutine(position, tileState, delay));
+        }
+
+        private IEnumerator SetTileStateDelayedCoroutine(Vector3Int position, TileState tileState, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            SetTileState(position, tileState);
         }
         
         public void GetTile(Vector3Int position, TileState tileState) => TileStateToTile(tileState);

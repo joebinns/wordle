@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void ResetGame(float delay = 4f)
+    public void ResetGame(float delay = 0f)
     {
         if (_isReseting) { return; }
         StartCoroutine(ResetGameDelayed(delay));

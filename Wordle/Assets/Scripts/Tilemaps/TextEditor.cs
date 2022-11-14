@@ -39,7 +39,7 @@ public class TextEditor : MonoBehaviour
         GameManager.Instance.OnGameReset -= Reset;
     }
     
-    private Tile FindTileByCharacter(char character) => Resources.Load(character.ToString()) as Tile;
+    public Tile FindTileByCharacter(char character) => Resources.Load(character.ToString()) as Tile;
 
     public void SetCharacterAtCaret(char character)
     {
@@ -197,7 +197,7 @@ public class TextEditor : MonoBehaviour
 
     public void EnterText()
     {
-        if (!_isEnabled) { return; }
+        if (!_isEnabled) { TriggerReset(); return; }
 
         bool isEntryValid = CheckIfEntryIsValid();
         if (!isEntryValid) { AudioManager.Instance.Play("Error"); return; }
@@ -223,7 +223,7 @@ public class TextEditor : MonoBehaviour
         var isWordCorrect = _wordChecker.DoesWordMatch(word);
         if (isWordCorrect)
         {
-            TriggerReset();
+            _isEnabled = false;
         }
     }
 
@@ -233,7 +233,8 @@ public class TextEditor : MonoBehaviour
         CaretPosition.y--;
         if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition))
         {
-            TriggerReset();
+            _isEnabled = false;
+            _guessesAnimations.RevealSolutionTiles(_wordChecker.Word);
         }
     }
     
@@ -251,7 +252,6 @@ public class TextEditor : MonoBehaviour
 
     private void TriggerReset()
     {
-        _isEnabled = false;
         GameManager.Instance.ResetGame();
     }
 

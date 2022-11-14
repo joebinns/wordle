@@ -18,7 +18,7 @@ public class GuessesAnimations : MonoBehaviour
 
     [SerializeField] private ParticleSystem _semiParticleSystem;
     [SerializeField] private ParticleSystem _fullParticleSystem;
-    
+
     private TextEditor _textEditor;
     
     private Vector3Int _hoveredPosition = -Vector3Int.one;
@@ -105,6 +105,29 @@ public class GuessesAnimations : MonoBehaviour
         {
             _blockTilemapAnimator.SmoothShakeTileOnce(position, a, b, duration);
             _letterTilemapAnimator.SmoothShakeTileOnce(position, a, b, duration);
+        }
+    }
+
+    public void RevealSolutionTiles(string word)
+    {
+        StartCoroutine(RevealSolutionTilesCoroutine(word));
+    }
+    
+    private IEnumerator RevealSolutionTilesCoroutine(string word)
+    {
+        var duration = 0.6f * _textEditor.WordLength;
+        yield return new WaitForSeconds(duration);
+        
+        var position = new Vector3Int(0, -_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.y, 0);
+        for (int x = 0; x < _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.x; x++)
+        {
+            position.x = x;
+        
+            _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.SetTile(position, _select);
+        
+            char character = word[x];
+            var tile = _textEditor.FindTileByCharacter(character);
+            _letterTilemapHandler.Tilemap.SetTile(position, tile);
         }
     }
     

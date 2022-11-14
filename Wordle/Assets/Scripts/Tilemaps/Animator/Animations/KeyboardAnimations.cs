@@ -48,7 +48,7 @@ public class KeyboardAnimations : MonoBehaviour
             var tile = _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().TileStateToTile(tileState);
             if (isTileUpdated)
             {
-                _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
+                _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().SetTileStateDelayed(position, tileState, duration / 2f);
                 _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
                 _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             }
