@@ -667,7 +667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86dd262aa8a5f6d4596d447a9af8e53a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hoverColor: {r: 1, g: 1, b: 1, a: 0.5019608}
 --- !u!114 &176464407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,9 +676,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 176464397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 070bf74f07198d14393b553e025fa368, type: 3}
+  m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _textEditor: {fileID: 875783540}
+  _letterTilemapAnimator: {fileID: 440077916}
+  _letterTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
 GameObject:
   m_ObjectHideFlags: 0
