@@ -252,11 +252,13 @@ public class TextEditor : MonoBehaviour
 
     private void TriggerReset()
     {
+        // TODO: Hide guess tiles (and clear), delay ResetGame by the time to animate.
         GameManager.Instance.ResetGame();
     }
 
     private void Reset()
     {
+        // TODO: Reveal guess tiles.
         ResetCaret();
         _isEnabled = true;
         _entries.Clear();

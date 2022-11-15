@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using Audio;
 using Tilemaps;
 using UnityEngine;
@@ -39,6 +38,9 @@ public class GuessesAnimations : MonoBehaviour
     private void Awake()
     {
         _textEditor = FindObjectOfType<TextEditor>();
+        
+        //var allBlockTiles = _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().
+        //ToggleTileVisibilities();
     }
     
     private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)
@@ -118,19 +120,36 @@ public class GuessesAnimations : MonoBehaviour
         var duration = 0.6f * _textEditor.WordLength;
         yield return new WaitForSeconds(duration);
         
-        var position = new Vector3Int(0, -_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.y, 0);
+        var position = new Vector3Int(0, -(_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.y - 1), 0);
         for (int x = 0; x < _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.x; x++)
         {
             position.x = x;
         
-            _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.SetTile(position, _select);
+            //_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.SetTile(position, _select);
         
             char character = word[x];
             var tile = _textEditor.FindTileByCharacter(character);
             _letterTilemapHandler.Tilemap.SetTile(position, tile);
         }
     }
+
+    public void ToggleTileVisibilities(List<Vector3Int> positions, float period)
+    {
+        StartCoroutine(ToggleTileVisibilitiesCoroutine(positions, period));
+    }
     
+    private IEnumerator ToggleTileVisibilitiesCoroutine(List<Vector3Int> positions, float period)
+    {
+        var hiddenEuler = Vector3.right * 90f;
+        var shownEuler = Vector3.zero;
+        foreach (var position in positions)
+        {
+            var isHidden = true;
+            _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, isHidden ? hiddenEuler : shownEuler, isHidden ? shownEuler : hiddenEuler, period);
+            yield return new WaitForSeconds(period);
+        }
+    }
+
     public void RevealGuessTiles(Dictionary<Vector3Int, Tile> positionToTile)
     {
         StartCoroutine(RevealGuessTilesCoroutine(positionToTile));
@@ -150,7 +169,7 @@ public class GuessesAnimations : MonoBehaviour
             AudioManager.Instance.Play("Flip");
 
             _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
-            _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, duration);
+            _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);

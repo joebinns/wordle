@@ -17,7 +17,7 @@ public class KeyboardInput : MonoBehaviour
         {
             foreach (char c in Input.inputString)
             {
-                if ((c == '\n') || (c == '\r')) // enter/return
+                if ((c == '\n') || (c == '\r')) // Enter or return.
                 {
                     _textEditor.EnterText();
                 }

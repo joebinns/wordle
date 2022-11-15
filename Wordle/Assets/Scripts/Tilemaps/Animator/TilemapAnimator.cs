@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -75,11 +74,9 @@ public class TilemapAnimator : MonoBehaviour
         StartCoroutine(SmoothRotateTile(tile, -b, a, duration));
     }
     
-    public void SmoothHalfFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
+    public void SmoothHalfFlipTileOnce(Vector3Int tile, Vector3 a, Vector3 b, float duration)
     {
-        var a = Vector3.zero;
-        var b = Vector3.right * 180f;
-        StartCoroutine(SmoothRotateTile(tile, opposite ? b : a, opposite ? a : b, duration));
+        StartCoroutine(SmoothRotateTile(tile, a, b, duration));
     }
 
     public void OscillateHalfFlipTileOnce(Vector3Int tile, float duration)
