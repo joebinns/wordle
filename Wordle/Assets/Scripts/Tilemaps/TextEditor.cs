@@ -41,6 +41,19 @@ public class TextEditor : MonoBehaviour
     
     public Tile FindTileByCharacter(char character) => Resources.Load(character.ToString()) as Tile;
 
+    public void InterpretCharacter(char character)
+    {
+        if ((character == '\n') || (character == '\r')) // Enter or return.
+        {
+            EnterText();
+        }
+        // TODO: Add condition and method for '\b'.
+        else
+        {
+            SetCharacterAtCaret(character);
+        }
+    }
+    
     public void SetCharacterAtCaret(char character)
     {
         if (!_isEnabled) { return; }
@@ -115,7 +128,7 @@ public class TextEditor : MonoBehaviour
             
             guessesPositionToTile[position] = _guessesBlockTilemapHandler.TileStateToTile(tileState);
             
-            var keyboardPosition = _keyboardLetterTilemapTracker.TileNameToPosition(character.ToString());
+            var keyboardPosition = _keyboardLetterTilemapTracker.CharacterToPosition(character);
             keyboardPositionToTileState[keyboardPosition] = tileState;
         }
         _guessesAnimations.RevealGuessTiles(guessesPositionToTile);

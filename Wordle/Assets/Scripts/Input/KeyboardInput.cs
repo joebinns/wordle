@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class KeyboardInput : MonoBehaviour
@@ -5,6 +6,8 @@ public class KeyboardInput : MonoBehaviour
     private TextEditor _textEditor;
     private KeyboardAnimations _keyboardAnimations;
 
+    public static event Action<char> OnKeyDown;
+    
     private void Awake()
     {
         _textEditor = FindObjectOfType<TextEditor>();
@@ -13,20 +16,17 @@ public class KeyboardInput : MonoBehaviour
 
     private void Update()
     {
+        UpdateKeyDown();
+    }
+
+    private void UpdateKeyDown()
+    {
+        // TODO: Call an action, which is subscribed to by KeyboardClickableTilemap.
         if (Input.anyKeyDown)
         {
-            foreach (char c in Input.inputString)
+            foreach (char character in Input.inputString)
             {
-                if ((c == '\n') || (c == '\r')) // Enter or return.
-                {
-                    _textEditor.EnterText();
-                }
-                
-                else
-                {
-                    _keyboardAnimations.PressTile(c);
-                    _textEditor.SetCharacterAtCaret(c);
-                }
+                OnKeyDown?.Invoke(character);
             }
         }
     }

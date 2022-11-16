@@ -39,10 +39,9 @@ public class KeyboardAnimations : MonoBehaviour
     
     public void PressTile(char character)
     {
-        var name = character.ToString();
-        if (_keyboardLetterTilemapTracker.Contains(name))
+        if (_keyboardLetterTilemapTracker.Contains(character))
         {
-            var position = _keyboardLetterTilemapTracker.TileNameToPosition(name);
+            var position = _keyboardLetterTilemapTracker.CharacterToPosition(character);
             _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
             _blockTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
             //_blockTilemapAnimator.FlashTileColor(position, Color.white, _hoverColor, 0.05f); // TODO: Need to get hover color

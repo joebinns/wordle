@@ -14,17 +14,35 @@ namespace Tilemaps
         private void Awake()
         {
             _tilemap = GetComponent<Tilemap>();
-            _tileNameToPosition = MapTileNamesToPositions();
+            _characterToPosition = MapTileNamesToPositions();
         }
 
-        private Dictionary<string, Vector3Int> _tileNameToPosition = new Dictionary<string, Vector3Int>();
-        public Vector3Int TileNameToPosition(string name) => _tileNameToPosition[name];
-        public string PositionToTileName(Vector3Int position) => _tileNameToPosition.FirstOrDefault(x => x.Value == position).Key;
-        public bool Contains(string name) => _tileNameToPosition.ContainsKey(name);
+        private Dictionary<char, Vector3Int> _characterToPosition = new Dictionary<char, Vector3Int>();
+        public Vector3Int CharacterToPosition(char character) => _characterToPosition[character];
+        public char PositionToCharacter(Vector3Int position) => _characterToPosition.FirstOrDefault(x => x.Value == position).Key;
+        public bool Contains(char character) => _characterToPosition.ContainsKey(character);
         
-        private Dictionary<string, Vector3Int> MapTileNamesToPositions()
+        public char TileNameToCharacter(string name)
         {
-            var tileNameToPosition = new Dictionary<string, Vector3Int>();
+            char character = '\0';
+            if (name != null)
+            {
+                character = name[0];
+                if (name == "enter")
+                {
+                    character = '\r'; // WARNING: This will miss '\n'
+                }
+                else if (name == "backspace")
+                {
+                    character = '\b';
+                }
+            }
+            return character;
+        }
+
+        private Dictionary<char, Vector3Int> MapTileNamesToPositions()
+        {
+            var tileNameToPosition = new Dictionary<char, Vector3Int>();
             for (int x = 0; x < _tilemap.size.x; x++)
             {
                 for (int y = 0; y < _tilemap.size.y; y++)
@@ -35,7 +53,8 @@ namespace Tilemaps
                         var tile = _tilemap.GetTile(position);
                         if (tile == null) { continue; }
                         var name = tile.name;
-                        tileNameToPosition[name] = position;
+                        var character = TileNameToCharacter(name);
+                        tileNameToPosition[character] = position;
                     }
                 }
             }

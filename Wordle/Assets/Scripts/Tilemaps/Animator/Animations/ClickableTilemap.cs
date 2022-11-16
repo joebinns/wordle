@@ -17,12 +17,12 @@ public abstract class ClickableTilemap : MonoBehaviour
         HoverableTilemap = GetComponent<HoverableTilemap>();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         MouseInput.OnCursorClick += Click;
     }
     
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         MouseInput.OnCursorClick -= Click;
     }
