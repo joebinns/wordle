@@ -47,6 +47,6 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickFunctionality(char character)
     {
-        _textEditor.InterpretCharacter(character);
+        _textEditor.AmendText(character);
     }
 }
