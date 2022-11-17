@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using UnityEngine;
 
 public class WordleTextEditor : TextEditor
 {
     private WordChecker _wordChecker;
-    private const int NUM_CHARS_PER_LINE = 5;
-    
+    public const int NumCharsPerLine = 5;
+
     private void Awake()
     {
         _wordChecker = FindObjectOfType<WordChecker>();
@@ -13,9 +14,14 @@ public class WordleTextEditor : TextEditor
     
     protected override bool IsInputValid(char character)
     {
-        var lines = Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        //var lines = Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var lines = Text.Split(new[] { '\r' }, StringSplitOptions.None);
         var finalLine = lines[^1];
-        if (character == '\n')
+        foreach (var line in lines)
+        {
+            Debug.Log("num lines: " + lines.Length + ". line: " + line);
+        }
+        if (character == '\r')
         {
             var isLineComplete = IsLineComplete(lines, finalLine);
             if (!isLineComplete) { return false; }
@@ -27,7 +33,7 @@ public class WordleTextEditor : TextEditor
         }
         else if (character >= 'a' && character <= 'z')
         {
-            var isLineFull = finalLine.Length == NUM_CHARS_PER_LINE;
+            var isLineFull = finalLine.Length == NumCharsPerLine;
             if (isLineFull) { return false; }
         }
         else
@@ -40,7 +46,7 @@ public class WordleTextEditor : TextEditor
 
     private bool IsLineComplete(string[] lines ,string line)
     {
-        var isLineFull = line.Length == NUM_CHARS_PER_LINE;
+        var isLineFull = line.Length == NumCharsPerLine;
         if (isLineFull)
         {
             var isWordRecognised = _wordChecker.IsWordRecognised(line);

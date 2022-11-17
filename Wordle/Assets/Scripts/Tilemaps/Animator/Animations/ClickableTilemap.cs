@@ -10,7 +10,7 @@ public abstract class ClickableTilemap : MonoBehaviour
     protected TilemapAnimator TilemapAnimator;
     protected HoverableTilemap HoverableTilemap;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         Tilemap = GetComponent<Tilemap>();
         TilemapAnimator = GetComponent<TilemapAnimator>();

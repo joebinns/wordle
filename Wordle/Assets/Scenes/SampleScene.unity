@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textEditor: {fileID: 875783540}
+  _textEditor: {fileID: 0}
   _letterTilemapAnimator: {fileID: 440077916}
   _letterTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
@@ -2181,8 +2181,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 875783538}
+  - component: {fileID: 875783542}
   - component: {fileID: 875783539}
-  - component: {fileID: 875783540}
   - component: {fileID: 875783541}
   m_Layer: 0
   m_Name: Guesses
@@ -2220,23 +2220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9073a17fafe89784cbaa921c856d6d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &875783540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875783536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2a6a8dd7f45fea4abb8ae6157b1c4c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CaretPosition: {x: 0, y: 0, z: 0}
-  _guessesBlockTilemapHandler: {fileID: 221659437}
-  _keyboardBlockTilemapHandler: {fileID: 176464404}
-  _guessesLetterTilemapHandler: {fileID: 1675965096}
-  _keyboardLetterTilemapTracker: {fileID: 440077915}
 --- !u!114 &875783541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,6 +2239,18 @@ MonoBehaviour:
   _select: {fileID: 11400000, guid: 9d8809d3cdf339f499b4e488fe2102f6, type: 2}
   _semiParticleSystem: {fileID: 1556556519}
   _fullParticleSystem: {fileID: 1609944743}
+--- !u!114 &875783542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875783536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfedbf3501ff5934cb8dd5f10ed541a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0

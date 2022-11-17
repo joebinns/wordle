@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class KeyboardClickableTilemap : ClickableTilemap
 {
-    [SerializeField] private TextEditor _textEditor;
     [SerializeField] private TilemapAnimator _letterTilemapAnimator;
     [SerializeField] private LetterTilemapTracker _letterTilemapTracker;
+
+    private WordleTextEditor _wordleTextEditor;
     
+    protected override void Awake()
+    {
+        base.Awake();
+        _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -47,6 +54,6 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickFunctionality(char character)
     {
-        _textEditor.AmendText(character);
+        _wordleTextEditor.AmendText(character);
     }
 }

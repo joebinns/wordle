@@ -18,7 +18,7 @@ public class GuessesAnimations : MonoBehaviour
     [SerializeField] private ParticleSystem _semiParticleSystem;
     [SerializeField] private ParticleSystem _fullParticleSystem;
 
-    private TextEditor _textEditor;
+    private WordleTextEditor _wordleTextEditor;
     
     private Vector3Int _hoveredPosition = -Vector3Int.one;
     public Vector3Int HoveredPosition
@@ -37,10 +37,7 @@ public class GuessesAnimations : MonoBehaviour
 
     private void Awake()
     {
-        _textEditor = FindObjectOfType<TextEditor>();
-        
-        //var allBlockTiles = _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().
-        //ToggleTileVisibilities();
+        _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
     }
     
     private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)
@@ -117,7 +114,7 @@ public class GuessesAnimations : MonoBehaviour
     
     private IEnumerator RevealSolutionTilesCoroutine(string word)
     {
-        var duration = 0.6f * _textEditor.WordLength;
+        var duration = 0.6f * WordleTextEditor.NumCharsPerLine;
         yield return new WaitForSeconds(duration);
         
         var position = new Vector3Int(0, -(_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.y - 1), 0);
@@ -128,7 +125,7 @@ public class GuessesAnimations : MonoBehaviour
             //_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.SetTile(position, _select);
         
             char character = word[x];
-            var tile = _textEditor.FindTileByCharacter(character);
+            var tile = TilemapUtilities.FindTileByCharacter(character);
             _letterTilemapHandler.Tilemap.SetTile(position, tile);
         }
     }
