@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Tilemaps
 {
-    public class LetterTilemapTracker : MonoBehaviour
+    public class TextTilemapTracker : MonoBehaviour
     {
         // Name --> Position
 

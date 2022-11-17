@@ -7,7 +7,7 @@ public class KeyboardAnimations : MonoBehaviour
 {
     [SerializeField] private TilemapAnimator _letterTilemapAnimator;
     [SerializeField] private TilemapAnimator _blockTilemapAnimator;
-    [SerializeField] private LetterTilemapTracker _keyboardLetterTilemapTracker;
+    [SerializeField] private TextTilemapTracker _keyboardTextTilemapTracker;
 
 
     public void RevealGuessTiles(Dictionary<Vector3Int, TileState> positionToTileState)
@@ -26,11 +26,11 @@ public class KeyboardAnimations : MonoBehaviour
             //_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().SetTileStateCautious(position, tileState);
 
             var isTileUpdated = tileState >
-                              _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().PositionToTileState[position];
-            var tile = _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().TileStateToTile(tileState);
+                              _blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().PositionToTileState[position];
+            var tile = _blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().TileStateToTile(tileState);
             if (isTileUpdated)
             {
-                _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().SetTileStateDelayed(position, tileState, duration / 2f);
+                _blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().SetTileStateDelayed(position, tileState, duration / 2f);
                 _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
                 _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             }
@@ -39,9 +39,9 @@ public class KeyboardAnimations : MonoBehaviour
     
     public void PressTile(char character)
     {
-        if (_keyboardLetterTilemapTracker.Contains(character))
+        if (_keyboardTextTilemapTracker.Contains(character))
         {
-            var position = _keyboardLetterTilemapTracker.CharacterToPosition(character);
+            var position = _keyboardTextTilemapTracker.CharacterToPosition(character);
             _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
             _blockTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
             //_blockTilemapAnimator.FlashTileColor(position, Color.white, _hoverColor, 0.05f); // TODO: Need to get hover color

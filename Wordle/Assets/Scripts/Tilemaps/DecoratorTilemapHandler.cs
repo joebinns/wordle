@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 namespace Tilemaps
 {
-    public class BlockTilemapHandler : TilemapHandler
+    public class DecoratorTilemapHandler : TilemapHandler
     {
         // TileState
         

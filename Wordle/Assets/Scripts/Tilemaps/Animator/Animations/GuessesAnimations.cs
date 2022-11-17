@@ -39,7 +39,7 @@ public class GuessesAnimations : MonoBehaviour
     {
         _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
     }
-    
+
     private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)
     {
         particleSystem.transform.position = position;
@@ -117,8 +117,8 @@ public class GuessesAnimations : MonoBehaviour
         var duration = 0.6f * WordleTextEditor.NumCharsPerLine;
         yield return new WaitForSeconds(duration);
         
-        var position = new Vector3Int(0, -(_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.y - 1), 0);
-        for (int x = 0; x < _blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.size.x; x++)
+        var position = new Vector3Int(0, -(_blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().Tilemap.size.y - 1), 0);
+        for (int x = 0; x < _blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().Tilemap.size.x; x++)
         {
             position.x = x;
         

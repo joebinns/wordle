@@ -14,7 +14,6 @@ public class WordleTextEditor : TextEditor
     
     protected override bool IsInputValid(char character)
     {
-        //var lines = Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
         var lines = Text.Split(new[] { '\r' }, StringSplitOptions.None);
         var finalLine = lines[^1];
         foreach (var line in lines)
