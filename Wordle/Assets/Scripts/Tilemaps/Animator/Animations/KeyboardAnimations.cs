@@ -9,7 +9,6 @@ public class KeyboardAnimations : MonoBehaviour
     [SerializeField] private TilemapAnimator _blockTilemapAnimator;
     [SerializeField] private TextTilemapTracker _keyboardTextTilemapTracker;
 
-
     public void RevealGuessTiles(Dictionary<Vector3Int, TileState> positionToTileState)
     {
         StartCoroutine(RevealGuessTilesCoroutine(positionToTileState));
@@ -34,17 +33,6 @@ public class KeyboardAnimations : MonoBehaviour
                 _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
                 _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
             }
-        }
-    }
-    
-    public void PressTile(char character)
-    {
-        if (_keyboardTextTilemapTracker.Contains(character))
-        {
-            var position = _keyboardTextTilemapTracker.CharacterToPosition(character);
-            _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
-            _blockTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
-            //_blockTilemapAnimator.FlashTileColor(position, Color.white, _hoverColor, 0.05f); // TODO: Need to get hover color
         }
     }
 }

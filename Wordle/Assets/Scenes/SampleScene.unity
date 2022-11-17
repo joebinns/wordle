@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _letterTilemapAnimator: {fileID: 440077916}
-  _textTilemapTracker: {fileID: 0}
+  _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
 GameObject:
   m_ObjectHideFlags: 0
