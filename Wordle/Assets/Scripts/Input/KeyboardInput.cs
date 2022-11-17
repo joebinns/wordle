@@ -21,7 +21,6 @@ public class KeyboardInput : MonoBehaviour
 
     private void UpdateKeyDown()
     {
-        // TODO: Call an action, which is subscribed to by KeyboardClickableTilemap.
         if (Input.anyKeyDown)
         {
             foreach (char character in Input.inputString)

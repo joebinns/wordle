@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Audio;
 using Tilemaps;
@@ -17,6 +18,8 @@ public class TextEditor : MonoBehaviour
     private WordChecker _wordChecker;
 
     public float WordLength => _guessesBlockTilemapHandler.Tilemap.size.x;
+
+    private string _text;
 
     private GuessesAnimations _guessesAnimations;
     private KeyboardAnimations _keyboardAnimations;
@@ -41,43 +44,149 @@ public class TextEditor : MonoBehaviour
     
     public Tile FindTileByCharacter(char character) => Resources.Load(character.ToString()) as Tile;
 
+    public void AmmendText(char character)
+    {
+        var isSuccessful = true;
+        /*
+        // 1) Check if character is valid (assume completed on input side).
+
+        var ammendedText = _text + character;
+        IsTextValid(ammendedText);
+        */
+    }
+
+    private const int NUM_CHARS_PER_LINE = 5;
+
+    private bool IsInputValid(char character)
+    {
+        var lines = _text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var numberOfLines = lines.Length;
+        var finalLine = lines[numberOfLines - 1];
+
+        if (character == '\n')
+        {
+            var isLineComplete = IsLineComplete(finalLine);
+            // Call event
+        }
+        else if (character == '\b')
+        {
+            var isLineEmpty = finalLine.Length == 0;
+            // Call event
+        }
+        else if (character >= 'a' && character <= 'z')
+        {
+            var isLineFull = finalLine.Length == NUM_CHARS_PER_LINE;
+            // Call event
+        }
+        else
+        {
+            var isCharacterRecognised = false;
+        }
+    }
+
+    private bool IsLineComplete(string line)
+    {
+        var isLineFull = line.Length == NUM_CHARS_PER_LINE;
+        if (isLineFull)
+        {
+            var isWordRecognised = _wordChecker.IsWordRecognised(line);
+            if (isWordRecognised)
+            {
+                var isWordUnique = !_entries.Contains(line);
+                if (isWordUnique)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    /*
+    // TODO: Revert to IsInputValid(char character)
+    private bool IsTextValid(string text)
+    {
+        var lines = text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var numberOfLines = lines.Length;
+        
+        //
+        var lastLine = lines[numberOfLines - 1];
+        if ()
+            
+        // TODO: Need to prevent deleting previous lines...
+            
+        for (int i = 0; i < lines.Length; i++)
+        {
+            var line = lines[i];
+            // 1) Check if line(s) are a valid length.
+            var lineLength = line.Length;
+            if (!(lineLength is >= 0 and < NUM_CHARS_PER_LINE))
+            {
+                return false;
+            }
+
+            // 2) Check if there are any empty lines which aren't at the end of the text.
+            if (lineLength == 0)
+            {
+                if (i != numberOfLines)
+                {
+                    return false;
+                }
+            }
+            
+            
+
+        }
+
+        return true;
+    }
+    */
+    
+    /*
     public void InterpretCharacter(char character)
     {
+        if (!_isEnabled) { return; }
         if ((character == '\n') || (character == '\r')) // Enter or return.
         {
             EnterText();
         }
-        // TODO: Add condition and method for '\b'.
-        else
+        //var tile = FindTileByCharacter(character); // TODO: Move this out of here, and set the tile whenever the texteditor string is changed (action)
+        if (character >= 'a' && character <= 'z')
         {
             SetCharacterAtCaret(character);
         }
+        else
+        {
+            DeleteCharacterAtCaret();
+        }
+    }
+
+    private void DeleteCharacterAtCaret()
+    {
+        AudioManager.Instance.Play("Keyboard Secondary");
+        if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition + Vector3Int.left)) { return; }
+
+        // Delete previous tile
+        CaretPosition.x--;
+        
+        //_text
+        _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, null);
     }
     
     public void SetCharacterAtCaret(char character)
     {
-        if (!_isEnabled) { return; }
-        var tile = FindTileByCharacter(character);
-        if (tile != null)
-        {
-            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition)) { AudioManager.Instance.Play("Keyboard Secondary"); return; }
+        if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition)) { AudioManager.Instance.Play("Keyboard Secondary"); return; }
             
-            AudioManager.Instance.Play("Keyboard Primary");
-            
-            // Set current tile
-            _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, tile);
-            CaretPosition.x++;
-        }
-        else
-        {
-            AudioManager.Instance.Play("Keyboard Secondary");
-            if (!_guessesBlockTilemapHandler.Tilemap.HasTile(CaretPosition + Vector3Int.left)) { return; }
-
-            // Delete previous tile
-            CaretPosition.x--;
-            _guessesLetterTilemapHandler.Tilemap.SetTile(CaretPosition, null);
-        }
+        // TODO: Create an action for adding a character, which is listened to by the audio manager.
+        AudioManager.Instance.Play("Keyboard Primary");
+        
+        //_word += character;
+        
+        
+        CaretPosition.x++;
     }
+    */
 
     private void SetTileStates(string word, ref Dictionary<int, TileState> indexToTileState)
     {
