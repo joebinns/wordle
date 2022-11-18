@@ -47,6 +47,51 @@ public class WordChecker : MonoBehaviour
     {
         return word == _word;
     }
+    
+    // TODO: Call this from GuessesAnimationsController (which then calls GuessesAnimations)
+    public Dictionary<int, TileState> GetTileStates(string word)
+    {
+        var indexToTileState = new Dictionary<int, TileState>();
+        SetTileStates(word, ref indexToTileState);
+        UndoExcessiveTileStates(word, ref indexToTileState);
+        return indexToTileState;
+    }
+    
+    private void SetTileStates(string word, ref Dictionary<int, TileState> indexToTileState)
+    {
+        for (int x = 0; x < word.Length; x++)
+        {
+            var character = word[x];
+            var tileState = TileState.WrongGuess;
+            if (IsCharacterIncluded(character))
+            {
+                tileState = TileState.SemiCorrectGuess;
+                if (IsCharacterIncludedAtIndex(character, x))
+                {
+                    tileState = TileState.CorrectGuess;
+                }
+            }
+
+            indexToTileState[x] = tileState;
+        }
+    }
+
+    private void UndoExcessiveTileStates(string word, ref Dictionary<int, TileState> indexToTileState)
+    {
+        var charToExcess = GetCharToExcess(word);
+        for (int x = word.Length - 1; x >= 0; x--)
+        {
+            var character = word[x];
+            if (indexToTileState[x] == TileState.SemiCorrectGuess)
+            {
+                if (charToExcess[character] > 0)
+                {
+                    indexToTileState[x] = TileState.WrongGuess;
+                    charToExcess[character] -= 1;
+                }
+            }
+        }
+    }
 
     public Dictionary<char, int> GetCharToExcess(string word)
     {

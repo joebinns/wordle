@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _letterTilemapAnimator: {fileID: 440077916}
+  _keyboardAnimations: {fileID: 994368462}
   _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
 GameObject:
@@ -710,9 +710,9 @@ GameObject:
   - component: {fileID: 221659434}
   - component: {fileID: 221659436}
   - component: {fileID: 221659435}
+  - component: {fileID: 221659439}
   - component: {fileID: 221659437}
   - component: {fileID: 221659438}
-  - component: {fileID: 221659439}
   m_Layer: 0
   m_Name: Block Tilemap
   m_TagString: Untagged
@@ -2280,7 +2280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _letterTilemapAnimator: {fileID: 440077916}
   _blockTilemapAnimator: {fileID: 176464405}
-  _keyboardTextTilemapTracker: {fileID: 0}
+  _hoverableTilemap: {fileID: 176464406}
 --- !u!1 &1093997999
 GameObject:
   m_ObjectHideFlags: 0

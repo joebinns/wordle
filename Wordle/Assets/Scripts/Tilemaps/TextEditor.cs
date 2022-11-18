@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class TextEditor : MonoBehaviour
 {
-    protected string Text = "";
+    public string Text => _text;
+    protected string _text = "";
 
     private void OnEnable()
     {
@@ -24,17 +25,31 @@ public abstract class TextEditor : MonoBehaviour
         var isInputValid = IsInputValid(character);
         if (!isInputValid) { OnInvalidInput?.Invoke(); return; }
 
-        if (character == '\b') { Text = Text.Remove(Text.Length-1); }
-        else { Text += character; }
+        if (character == '\b') { _text = _text.Remove(_text.Length-1); }
+        else { _text += character; }
         OnTextChanged?.Invoke(character);
-        
-        Debug.Log(Text);
+    }
+
+    public string GetFinalLine()
+    {
+        return(GetLines()[^1]);
+    }
+    
+    public string GetLine(int index)
+    {
+        return(GetLines()[index]);
+    }
+    
+    protected string[] GetLines()
+    {
+        var lines = Text.Split(new[] { '\r' }, StringSplitOptions.None);
+        return lines;
     }
 
     protected abstract bool IsInputValid(char character);
 
     private void Reset()
     {
-        Text = "";
+        _text = "";
     }
 }

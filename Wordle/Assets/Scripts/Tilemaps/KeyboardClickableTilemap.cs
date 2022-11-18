@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyboardClickableTilemap : ClickableTilemap
 {
-    [SerializeField] private TilemapAnimator _letterTilemapAnimator;
+    [SerializeField] private KeyboardAnimations _keyboardAnimations;
     [SerializeField] private TextTilemapTracker _textTilemapTracker;
 
     private WordleTextEditor _wordleTextEditor;
@@ -47,9 +47,7 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickVisual(Vector3Int position)
     {
-        TilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
-        TilemapAnimator.FlashTileColor(position, Color.white, HoverableTilemap.HoverColor, 0.1f);
-        _letterTilemapAnimator.SmoothLoopTilePositionOnce(position, Vector3.zero, Vector3.down * 0.15f, 0.1f);
+        _keyboardAnimations.ClickTile(position);
     }
 
     private void ClickFunctionality(char character)

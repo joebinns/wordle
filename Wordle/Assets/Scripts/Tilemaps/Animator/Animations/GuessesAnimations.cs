@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Audio;
@@ -19,25 +18,15 @@ public class GuessesAnimations : MonoBehaviour
     [SerializeField] private ParticleSystem _fullParticleSystem;
 
     private WordleTextEditor _wordleTextEditor;
-    
-    private Vector3Int _hoveredPosition = -Vector3Int.one;
-    public Vector3Int HoveredPosition
-    {
-        get => _hoveredPosition;
-        set
-        {
-            if (_hoveredPosition != value)
-            {
-                UnHoverTile(_hoveredPosition);
-                _hoveredPosition = value;
-                HoverTile(_hoveredPosition);
-            }
-        }
-    }
 
     private void Awake()
     {
         _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
+    }
+
+    public void SetTile(char character)
+    {
+        
     }
 
     private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)
@@ -71,8 +60,6 @@ public class GuessesAnimations : MonoBehaviour
         {
             var duration = 0.5f;
             _blockTilemapAnimator.FlashTile(position, _default, _select, duration * 1.2f);
-            //_blockTilemapAnimator.SmoothFlipTileOnce(position, duration);
-            //_letterTilemapAnimator.SmoothFlipTileOnce(position, duration, true);
         }
     }
     
@@ -98,7 +85,7 @@ public class GuessesAnimations : MonoBehaviour
         }
     }
     
-    public void ShakeTiles(List<Vector3Int> positions, Vector3 a, Vector3 b, float duration = 0.25f)
+    private void ShakeTiles(List<Vector3Int> positions, Vector3 a, Vector3 b, float duration = 0.25f)
     {
         foreach (var position in positions)
         {
@@ -168,8 +155,6 @@ public class GuessesAnimations : MonoBehaviour
             _blockTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
             _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
-            //_blockTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
-            //_letterTilemapAnimator.OscillateHalfFlipTileOnce(position, duration / 2f);
             
             var worldPosition = _letterTilemapHandler.Tilemap.GetCellCenterWorld(position);
             if (tile.name == "correct_guess")
@@ -190,30 +175,5 @@ public class GuessesAnimations : MonoBehaviour
             pitch += 0.5f;
         }
         StopParticleSystem(_fullParticleSystem);
-    }
-    
-    public void PressTile(char character)
-    {
-        /*
-        var name = character.ToString();
-        if (_keyboardLetterTilemapTracker.Contains(name))
-        {
-            var position = _keyboardLetterTilemapTracker.TileNameToPosition(name);
-            _tilemapAnimator.SmoothLoopTilePosition(position);
-        }
-        */
-    }
-
-    private void HoverTile(Vector3Int position)
-    {
-        var color = Color.white;
-        color.a = 0.8f;
-        _blockTilemapAnimator.SetColor(position, color);
-    }
-
-    private void UnHoverTile(Vector3Int position)
-    {
-        var color = Color.white;
-        _blockTilemapAnimator.SetColor(position, color);
     }
 }
