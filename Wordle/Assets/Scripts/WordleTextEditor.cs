@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Linq;
 using UnityEngine;
 
 public class WordleTextEditor : TextEditor
@@ -13,31 +12,30 @@ public class WordleTextEditor : TextEditor
     {
         _wordChecker = FindObjectOfType<WordChecker>();
     }
-    
-    // TODO: Figure re-creates these methods for just indices.
-    /*
-    public List<int> GetEmptyIndices(int line)
+
+    public List<int> GetFullIndices(int lineIndex)
     {
-        
-        var emptyTiles = new List<Vector3Int>();
-        var position = CaretPosition;
-        for (int x = 0; x < WordLength; x++)
+        var line = GetLine(lineIndex);
+        var full = new List<int>();
+        for (int i = 0; i < line.Length; i++)
         {
-            position.x = x;
-            if (_guessesLetterTilemapHandler.Tilemap.HasTile(position)) { continue; }
-            emptyTiles.Add(position);
+            full.Add(i);
         }
-        return emptyTiles;
+        //full = (List<int>)Enumerable.Range(0, line.Length);
+        return full;
     }
     
-    public List<int> GetNonEmptyIndices(int line)
+    public List<int> GetEmptyIndices(int lineIndex)
     {
-        var all =
-        var empty = GetEmptyIndices();
-        var full = all
-        
+        var line = GetLine(lineIndex);
+        var empty = new List<int>();
+        for (int i = line.Length; i < NumCharsPerLine; i++)
+        {
+            empty.Add(i);
+        }
+        //var empty = (List<int>)Enumerable.Range(line.Length, NumCharsPerLine);
+        return empty;
     }
-    */
 
     protected override bool IsInputValid(char character)
     {

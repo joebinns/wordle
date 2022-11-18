@@ -30,6 +30,11 @@ public abstract class TextEditor : MonoBehaviour
         OnTextChanged?.Invoke(character);
     }
 
+    public int GetFinalLineIndex()
+    {
+        return(GetLines().Length - 1);
+    }
+    
     public string GetFinalLine()
     {
         return(GetLines()[^1]);
@@ -37,6 +42,7 @@ public abstract class TextEditor : MonoBehaviour
     
     public string GetLine(int index)
     {
+        Debug.Log(index);
         return(GetLines()[index]);
     }
     

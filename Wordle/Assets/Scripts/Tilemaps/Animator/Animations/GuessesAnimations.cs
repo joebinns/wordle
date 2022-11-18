@@ -24,7 +24,7 @@ public class GuessesAnimations : MonoBehaviour
         _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
     }
 
-    public void SetTile(char character)
+    public void SetTile(Vector3Int position, Tile tile)
     {
         
     }
