@@ -24,7 +24,6 @@ public abstract class TextEditor : MonoBehaviour
     {
         var isInputValid = IsInputValid(character);
         if (!isInputValid) { OnInvalidInput?.Invoke(); return; }
-
         if (character == '\b') { _text = _text.Remove(_text.Length-1); }
         else { _text += character; }
         OnTextChanged?.Invoke(character);
@@ -42,7 +41,6 @@ public abstract class TextEditor : MonoBehaviour
     
     public string GetLine(int index)
     {
-        Debug.Log(index);
         return(GetLines()[index]);
     }
     

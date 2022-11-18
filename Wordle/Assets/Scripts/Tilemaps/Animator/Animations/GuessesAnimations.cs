@@ -24,9 +24,9 @@ public class GuessesAnimations : MonoBehaviour
         _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
     }
 
-    public void SetTile(Vector3Int position, Tile tile)
+    public void SetLetter(Vector3Int position, Tile tile)
     {
-        
+        _letterTilemapAnimator.SetTileDelayed(position, tile, 0f);
     }
 
     private void PlayParticleSystem(ParticleSystem particleSystem, Vector3 position)

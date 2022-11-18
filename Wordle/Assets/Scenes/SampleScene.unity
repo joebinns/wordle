@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 176464406}
   - component: {fileID: 176464407}
   m_Layer: 0
-  m_Name: Block Tilemap
+  m_Name: Decorator Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 221659437}
   - component: {fileID: 221659438}
   m_Layer: 0
-  m_Name: Block Tilemap
+  m_Name: Decorator Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2246,6 +2246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff61356547509634da9e747c6f53330b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _guessesDecoratorTilemapHandler: {fileID: 221659437}
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0

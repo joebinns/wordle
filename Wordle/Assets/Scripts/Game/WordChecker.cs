@@ -93,7 +93,7 @@ public class WordChecker : MonoBehaviour
         }
     }
 
-    public Dictionary<char, int> GetCharToExcess(string word)
+    private Dictionary<char, int> GetCharToExcess(string word)
     {
         var charToNumberDuplicateOccurrencesTarget = GetCharToNumberDuplicateOccurrences(_word);
         var charToNumberDuplicateOccurrencesGuess = GetCharToNumberDuplicateOccurrences(word);

@@ -33,7 +33,6 @@ public class WordleTextEditor : TextEditor
         {
             empty.Add(i);
         }
-        //var empty = (List<int>)Enumerable.Range(line.Length, NumCharsPerLine);
         return empty;
     }
 
@@ -41,10 +40,6 @@ public class WordleTextEditor : TextEditor
     {
         var lines = base.GetLines();
         var finalLine = lines[^1];
-        foreach (var line in lines)
-        {
-            Debug.Log("num lines: " + lines.Length + ". line: " + line);
-        }
         if (character == '\r')
         {
             var isLineComplete = IsLineComplete(lines, finalLine);
@@ -55,7 +50,7 @@ public class WordleTextEditor : TextEditor
             var isLineEmpty = finalLine.Length == 0;
             if (isLineEmpty) { return false; }
         }
-        else if (character >= 'a' && character <= 'z')
+        else if (character is >= 'a' and <= 'z')
         {
             var isLineFull = finalLine.Length == NumCharsPerLine;
             if (isLineFull) { return false; }
