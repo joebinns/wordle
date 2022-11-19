@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,16 +17,21 @@ namespace Tilemaps
         
         private Dictionary<Vector3Int, TileState> _positionToTileState = new Dictionary<Vector3Int, TileState>();
         public Dictionary<Vector3Int, TileState> PositionToTileState => _positionToTileState;
+        
+        private Dictionary<TileState, Tile> _tileStateToTile = new Dictionary<TileState, Tile>();
 
+        public Tile TileStateToTile(TileState tileState) { return _tileStateToTile[tileState]; }
+        public TileState TileToTileState(Tile tile) { return _tileStateToTile.FirstOrDefault(x => x.Value == tile).Key; }
+        
         protected override void Awake()
         {
             base.Awake();
-            _positionToTileState = InitialisePositionsToTileStates();
+            InitialisePositionsToTileStates();
+            InitialiseTileStateToTile();
         }
         
-        private Dictionary<Vector3Int, TileState> InitialisePositionsToTileStates()
+        private void InitialisePositionsToTileStates()
         {
-            var positionToTileState = new Dictionary<Vector3Int, TileState>();
             for (int x = 0; x < Tilemap.size.x; x++)
             {
                 for (int y = 0; y < Tilemap.size.y; y++)
@@ -34,13 +40,32 @@ namespace Tilemaps
                     {
                         var position = new Vector3Int(x, -y, z);
                         if (!Tilemap.HasTile(position)) { continue; }
-                        positionToTileState[position] = TileState.UnGuessed;
+                        _positionToTileState[position] = TileState.UnGuessed;
                     }
                 }
             }
-            return positionToTileState;
+        }
+        
+        private void InitialiseTileStateToTile()
+        {
+            _tileStateToTile[TileState.CorrectGuess] = correct_guess;
+            _tileStateToTile[TileState.SemiCorrectGuess] = semi_correct_guess;
+            _tileStateToTile[TileState.WrongGuess] = wrong_guess;
+            _tileStateToTile[TileState.UnGuessed] = un_guessed;
         }
 
+        public void SetTile(Vector3Int position, Tile tile)
+        {
+            var tileState = TileToTileState(tile);
+            SetTileState(position, tileState);
+        }
+
+        public void SetTileDelayed(Vector3Int position, Tile tile, float delay)
+        {
+            var tileState = TileToTileState(tile);
+            SetTileStateDelayed(position, tileState, delay);
+        }
+        
         public void SetTileStateCautious(Vector3Int position, TileState tileState)
         {
             if (tileState > _positionToTileState[position])
@@ -66,30 +91,7 @@ namespace Tilemaps
             yield return new WaitForSeconds(delay);
             SetTileState(position, tileState);
         }
-        
-        public void GetTile(Vector3Int position, TileState tileState) => TileStateToTile(tileState);
 
-        public Tile TileStateToTile(TileState tileState)
-        {
-            Tile tile = null;
-            switch (tileState)
-            {
-                case TileState.CorrectGuess:
-                    tile = correct_guess;
-                    break;
-                case TileState.SemiCorrectGuess:
-                    tile = semi_correct_guess;
-                    break;
-                case TileState.WrongGuess:
-                    tile = wrong_guess;
-                    break;
-                case TileState.UnGuessed:
-                    tile = un_guessed;
-                    break;
-            }
-            return tile;
-        }
-        
         protected override void ResetTile(Vector3Int position)
         {
             if (Tilemap.HasTile(position))

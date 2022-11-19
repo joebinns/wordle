@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyboardClickableTilemap : ClickableTilemap
 {
-    [SerializeField] private KeyboardAnimations _keyboardAnimations;
+    [SerializeField] private KeyboardAnimationsController _keyboardAnimationsController;
     [SerializeField] private TextTilemapTracker _textTilemapTracker;
 
     private WordleTextEditor _wordleTextEditor;
@@ -31,23 +31,22 @@ public class KeyboardClickableTilemap : ClickableTilemap
     {
         var cell = Tilemap.WorldToCell(worldPosition);
         if (!Tilemap.HasTile(cell)) { return; }
-        ClickVisual(cell);
         var character = _textTilemapTracker.PositionToCharacter(cell);
+        ClickVisual(character);
         ClickFunctionality(character);
     }
-    
+
     // Press (char) --> convert to cell --> visual (cell) --> functionality (char).
     private void Press(char character)
     {
         if (!_textTilemapTracker.Contains(character)) { return; }
-        var cell = _textTilemapTracker.CharacterToPosition(character);
-        ClickVisual(cell);
+        ClickVisual(character);
         ClickFunctionality(character);
     }
 
-    private void ClickVisual(Vector3Int position)
+    private void ClickVisual(char character)
     {
-        _keyboardAnimations.ClickTile(position);
+        _keyboardAnimationsController.ClickTile(character);
     }
 
     private void ClickFunctionality(char character)

@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyboardAnimations: {fileID: 994368462}
+  _keyboardAnimationsController: {fileID: 994368463}
   _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
 GameObject:
@@ -2256,6 +2256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 994368461}
+  - component: {fileID: 994368463}
   - component: {fileID: 994368462}
   m_Layer: 0
   m_Name: Keyboard
@@ -2293,8 +2294,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _letterTilemapAnimator: {fileID: 440077916}
-  _blockTilemapAnimator: {fileID: 176464405}
+  _decoratorTilemapAnimator: {fileID: 176464405}
   _hoverableTilemap: {fileID: 176464406}
+--- !u!114 &994368463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994368459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716d53515008c904b8ac82646bf45f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keyboardDecoratorTilemapHandler: {fileID: 176464404}
+  _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &1093997999
 GameObject:
   m_ObjectHideFlags: 0
