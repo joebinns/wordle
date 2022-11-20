@@ -6,7 +6,7 @@ public class ShowGuessesAnimation : Animation
 {
     [SerializeField] private TilemapAnimator _decoratorTilemapAnimator;
     
-    public override IEnumerator Play()
+    public override IEnumerator Play(Context context)
     {
         var duration = 0.6f;
         

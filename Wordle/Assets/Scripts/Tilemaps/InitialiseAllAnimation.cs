@@ -5,7 +5,7 @@ public class InitialiseAllAnimation : Animation
 {
     [SerializeField] private TilemapAnimator _decoratorTilemapAnimator;
     
-    public override IEnumerator Play()
+    public override IEnumerator Play(Context context)
     {
         for (int x = 0; x < WordleTextEditor.NumCharsPerLine; x++)
         {
