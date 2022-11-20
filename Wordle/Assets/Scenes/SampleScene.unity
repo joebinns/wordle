@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyboardAnimationsController: {fileID: 994368463}
+  _keyboardAnimationsController: {fileID: 0}
   _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &221659433
 GameObject:
@@ -2026,6 +2026,57 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!1 &581844819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581844821}
+  - component: {fileID: 581844820}
+  m_Layer: 0
+  m_Name: Guesses Test Animations Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &581844820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581844819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99847dc73c7138142826b7f56da99121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialiseAllAnimation: {fileID: 1447863145}
+  ShowGuessesAnimation: {fileID: 863955276}
+  ShowAccuracyAnimation: {fileID: 0}
+  ShowSolutionAnimation: {fileID: 0}
+  ClearAllAnimation: {fileID: 0}
+--- !u!4 &581844821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581844819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 863955277}
+  - {fileID: 1447863144}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,6 +2232,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9073a17fafe89784cbaa921c856d6d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &863955275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863955277}
+  - component: {fileID: 863955276}
+  m_Layer: 0
+  m_Name: Show Guesses Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &863955276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863955275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6a003f2de2b8345b9129a6c41a1da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decoratorTilemapAnimator: {fileID: 221659438}
+--- !u!4 &863955277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863955275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 581844821}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &875783536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2190,8 +2286,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 875783538}
-  - component: {fileID: 875783542}
-  - component: {fileID: 875783541}
   m_Layer: 0
   m_Name: Guesses
   m_TagString: Untagged
@@ -2215,38 +2309,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &875783541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875783536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbccaced7c5f4a84a9bb60300cb3de2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _blockTilemapAnimator: {fileID: 221659438}
-  _letterTilemapAnimator: {fileID: 1675965097}
-  _letterTilemapHandler: {fileID: 1675965096}
-  _default: {fileID: 11400000, guid: 331d405687c521040893c53d5f28260c, type: 2}
-  _select: {fileID: 11400000, guid: 9d8809d3cdf339f499b4e488fe2102f6, type: 2}
-  _semiParticleSystem: {fileID: 1556556519}
-  _fullParticleSystem: {fileID: 1609944743}
---- !u!114 &875783542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875783536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff61356547509634da9e747c6f53330b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guessesDecoratorTilemapHandler: {fileID: 221659437}
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,8 +2318,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 994368461}
-  - component: {fileID: 994368463}
-  - component: {fileID: 994368462}
   m_Layer: 0
   m_Name: Keyboard
   m_TagString: Untagged
@@ -2281,35 +2341,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &994368462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 994368459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 682366c0071969649957c3f997db6e34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _letterTilemapAnimator: {fileID: 440077916}
-  _decoratorTilemapAnimator: {fileID: 176464405}
-  _hoverableTilemap: {fileID: 176464406}
---- !u!114 &994368463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 994368459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 716d53515008c904b8ac82646bf45f65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _keyboardDecoratorTilemapHandler: {fileID: 176464404}
-  _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &1093997999
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,6 +2464,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1447863143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1447863144}
+  - component: {fileID: 1447863145}
+  m_Layer: 0
+  m_Name: Initialise All Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1447863144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447863143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 581844821}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1447863145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447863143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e666c28aafff79349bc7c409cbdbd5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decoratorTilemapAnimator: {fileID: 221659438}
 --- !u!1 &1476457470
 GameObject:
   m_ObjectHideFlags: 0
@@ -12504,6 +12580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfedbf3501ff5934cb8dd5f10ed541a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsEnabled: 1
 --- !u!1 &2141845023
 GameObject:
   m_ObjectHideFlags: 0

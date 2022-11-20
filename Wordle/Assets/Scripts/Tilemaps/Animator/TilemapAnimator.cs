@@ -60,6 +60,13 @@ public class TilemapAnimator : MonoBehaviour
     #endregion
     
     #region Rotate
+
+    public void SetRotation(Vector3Int tile, Vector3 rotation)
+    {
+        Matrix4x4 targetMatrix = Matrix4x4.Rotate(Quaternion.Euler(rotation));
+        _tilemap.SetTransformMatrix(tile, targetMatrix);
+    }
+    
     public void SmoothTrickHalfFlipTileOnce(Vector3Int tile, float duration, bool opposite = false)
     {
         var a = Vector3.zero;

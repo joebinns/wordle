@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class WordleTextEditor : TextEditor
 {
-    private WordChecker _wordChecker;
     public const int NumCharsPerLine = 5;
+    
+    private WordChecker _wordChecker;
 
     private void Awake()
     {
@@ -21,7 +22,6 @@ public class WordleTextEditor : TextEditor
         {
             full.Add(i);
         }
-        //full = (List<int>)Enumerable.Range(0, line.Length);
         return full;
     }
     
@@ -44,6 +44,8 @@ public class WordleTextEditor : TextEditor
         {
             var isLineComplete = IsLineComplete(lines, finalLine);
             if (!isLineComplete) { return false; }
+            if (_wordChecker.DoesWordMatch(GetFinalLine())) { IsEnabled = false; }
+            if (GetFinalLineIndex() + 2 == MaxNumLines) { IsEnabled = false; }
         }
         else if (character == '\b')
         {

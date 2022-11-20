@@ -51,6 +51,7 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickFunctionality(char character)
     {
+        if (!_wordleTextEditor.IsEnabled) { GameManager.Instance.ResetGame(0f); return; }
         _wordleTextEditor.AmendText(character);
     }
 }

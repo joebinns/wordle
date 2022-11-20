@@ -6,11 +6,15 @@ using UnityEngine.Tilemaps;
 
 public class GuessesAnimationsController : MonoBehaviour
 {
+    // TODO: Queue animations, such that only one occurs at a time.
     [SerializeField] private DecoratorTilemapHandler _guessesDecoratorTilemapHandler;
     
     private GuessesAnimations _guessesAnimations;
     private WordleTextEditor _wordleTextEditor;
     private WordChecker _wordChecker;
+
+    private bool _isSolutionVisible = true;
+    private bool _isSolutionInitialised = false;
 
     private void Awake()
     {
@@ -23,19 +27,42 @@ public class GuessesAnimationsController : MonoBehaviour
     {
         WordleTextEditor.OnInvalidInput += Shake;
         WordleTextEditor.OnTextChanged += OnTextChanged;
+        WordChecker.OnWordChanged += UpdateSolution;
+        WordChecker.OnWordChanged += ToggleSolutionVisibility; // TODO: Toggle solution visibility when game ends (First add end-game condition).
     }
     
     private void OnDisable()
     {
         WordleTextEditor.OnInvalidInput -= Shake;
         WordleTextEditor.OnTextChanged -= OnTextChanged;
+        WordChecker.OnWordChanged -= UpdateSolution;
+        WordChecker.OnWordChanged -= ToggleSolutionVisibility;
+    }
+
+    private void UpdateSolution()
+    {
+        var word = _wordChecker.Word;
+        for (int i = 0; i < word.Length; i++)
+        {
+            var characterPosition = new Vector3Int(i, -WordleTextEditor.MaxNumLines, 0);
+            var character = word[i];
+            var tile = TilemapUtilities.FindTileByCharacter(character);
+            _guessesAnimations.SetLetter(characterPosition, tile);
+        }
+    }
+
+    private void ToggleSolutionVisibility()
+    {
+        _isSolutionVisible = !_isSolutionVisible;
+        var duration = 0.3f;
+        _guessesAnimations.ToggleSolutionTilesVisibility(_isSolutionVisible, _isSolutionInitialised ? duration : 0f);
+        _isSolutionInitialised = true;
     }
 
     private void OnTextChanged(char character)
     {
         var characterIndex = _wordleTextEditor.GetFinalLine().Length - 1;
         var characterPosition = IndexToPosition(characterIndex);
-
         if (character is >= 'a' and <= 'z')
         {
             var tile = TilemapUtilities.FindTileByCharacter(character);

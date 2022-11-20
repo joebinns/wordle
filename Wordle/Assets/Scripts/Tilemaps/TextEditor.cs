@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class TextEditor : MonoBehaviour
 {
+    public bool IsEnabled = true;
+    public const int MaxNumLines = 6;
+    
     public string Text => _text;
     protected string _text = "";
 
@@ -55,5 +58,6 @@ public abstract class TextEditor : MonoBehaviour
     private void Reset()
     {
         _text = "";
+        IsEnabled = true;
     }
 }

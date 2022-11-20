@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class WordChecker : MonoBehaviour
     private string _word;
     public string Word => _word;
     private Dictionary _dictionary;
+    
+    public static event Action OnWordChanged;
 
     private void Awake()
     {
@@ -137,6 +140,7 @@ public class WordChecker : MonoBehaviour
     private void Reset()
     {
         _word = _dictionary.GetRandomWord();
+        OnWordChanged?.Invoke();
         Debug.Log(_word);
     }
 }

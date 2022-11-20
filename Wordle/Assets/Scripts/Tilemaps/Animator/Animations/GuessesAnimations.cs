@@ -94,26 +94,28 @@ public class GuessesAnimations : MonoBehaviour
         }
     }
 
-    public void RevealSolutionTiles(string word)
+    public void ToggleSolutionTilesVisibility(bool shouldShow, float delay = 0.3f)
     {
-        StartCoroutine(RevealSolutionTilesCoroutine(word));
+        StartCoroutine(ToggleSolutionTilesVisibilityCoroutine(shouldShow, delay));
     }
-    
-    private IEnumerator RevealSolutionTilesCoroutine(string word)
+
+    private IEnumerator ToggleSolutionTilesVisibilityCoroutine(bool shouldShow, float delay)
     {
-        var duration = 0.6f * WordleTextEditor.NumCharsPerLine;
-        yield return new WaitForSeconds(duration);
-        
+        var duration = delay * WordleTextEditor.NumCharsPerLine;
+        //if (delay != 0f) { yield return new WaitForSeconds(duration); }
+
+        duration /= 2f;
         var position = new Vector3Int(0, -(_blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().Tilemap.size.y - 1), 0);
         for (int x = 0; x < _blockTilemapAnimator.GetComponent<DecoratorTilemapHandler>().Tilemap.size.x; x++)
         {
             position.x = x;
-        
-            //_blockTilemapAnimator.GetComponent<BlockTilemapHandler>().Tilemap.SetTile(position, _select);
-        
-            char character = word[x];
-            var tile = TilemapUtilities.FindTileByCharacter(character);
-            _letterTilemapHandler.Tilemap.SetTile(position, tile);
+
+            var a = shouldShow ? Vector3.right * 90f : Vector3.zero;
+            var b = shouldShow ? Vector3.zero : Vector3.right * 90f;
+            _blockTilemapAnimator.SmoothHalfFlipTileOnce(position, a, b, duration);
+            _letterTilemapAnimator.SmoothHalfFlipTileOnce(position, a, b, duration);
+
+            if (delay != 0f) { yield return new WaitForSeconds(delay); }
         }
     }
 
