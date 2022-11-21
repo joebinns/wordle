@@ -8,14 +8,18 @@ public class GuessesTestAnimationsController : AnimationsController
     [SerializeField] private Animation ShakeAnimation;
     [SerializeField] private Animation SubmitGuessAnimation;
     [SerializeField] private Animation ShowSolutionAnimation;
-    [SerializeField] private Animation ClearAllAnimation;
+    [SerializeField] private Animation ResetAnimation;
+    [SerializeField] private Animation HideSolutionAnimation;
+
+    private bool _isSolutionVisible = false;
 
     private void OnEnable()
     {
         WordleTextEditor.OnTextChanged += EnqueueSetTextAnimation;
         WordleTextEditor.OnTextChanged += EnqueueSubmitGuessAnimation;
         WordleTextEditor.OnInvalidInput += EnqueueShakeAnimation;
-        WordleTextEditor.OnWordleTextEditorDisabled += EnqueueShowSolutionAnimation;
+        WordleTextEditor.OnFail += EnqueueShowSolutionAnimation;
+        GameManager.Instance.OnGameReset += EnqueueResetAnimation;
     }
 
     private void OnDisable()
@@ -23,7 +27,8 @@ public class GuessesTestAnimationsController : AnimationsController
         WordleTextEditor.OnTextChanged -= EnqueueSetTextAnimation;
         WordleTextEditor.OnTextChanged -= EnqueueSubmitGuessAnimation;
         WordleTextEditor.OnInvalidInput -= EnqueueShakeAnimation;
-        WordleTextEditor.OnWordleTextEditorDisabled -= EnqueueShowSolutionAnimation;
+        WordleTextEditor.OnFail -= EnqueueShowSolutionAnimation;
+        GameManager.Instance.OnGameReset -= EnqueueResetAnimation;
     }
 
     protected override void Start()
@@ -35,7 +40,6 @@ public class GuessesTestAnimationsController : AnimationsController
 
     private void EnqueueSubmitGuessAnimation(char character)
     {
-        //PlayAnimation(new AnimationCall(SubmitGuessAnimation, new Animation.Context(character)));
         AnimationCalls.Enqueue(new AnimationCall(SubmitGuessAnimation, new Animation.Context(character)));
     }
 
@@ -49,9 +53,19 @@ public class GuessesTestAnimationsController : AnimationsController
         PlayAnimation(new AnimationCall(ShakeAnimation, new Animation.Context()));
     }
     
-    private void EnqueueShowSolutionAnimation() // TODO: Call this when text editor is disabled
+    private void EnqueueShowSolutionAnimation()
     {
-        //PlayAnimation(new AnimationCall(ShowSolutionAnimation, new Animation.Context()));
         AnimationCalls.Enqueue(new AnimationCall(ShowSolutionAnimation, new Animation.Context()));
+        _isSolutionVisible = true;
+    }
+    
+    private void EnqueueResetAnimation()
+    {
+        if (_isSolutionVisible)
+        {
+            AnimationCalls.Enqueue(new AnimationCall(HideSolutionAnimation, new Animation.Context()));
+        }
+        AnimationCalls.Enqueue(new AnimationCall(ResetAnimation, new Animation.Context()));
+        _isSolutionVisible = false;
     }
 }

@@ -8,7 +8,7 @@ public class WordleTextEditor : TextEditor
     
     private WordChecker _wordChecker;
 
-    public static event Action OnWordleTextEditorDisabled;
+    public static event Action OnFail;
 
     private void Awake()
     {
@@ -37,6 +37,12 @@ public class WordleTextEditor : TextEditor
         return empty;
     }
 
+    private IEnumerator InvokeOnFailDelayed()
+    {
+        yield return null;
+        OnFail?.Invoke(); 
+    }
+    
     protected override bool IsInputValid(char character)
     {
         var lines = base.GetLines();
@@ -45,8 +51,8 @@ public class WordleTextEditor : TextEditor
         {
             var isLineComplete = IsLineComplete(lines, finalLine);
             if (!isLineComplete) { return false; }
-            if (_wordChecker.DoesWordMatch(GetFinalLine())) { Disable(); }
-            if (GetFinalLineIndex() + 2 == MaxNumLines) { Disable(); }
+            if (_wordChecker.DoesWordMatch(GetFinalLine())) { IsEnabled = false; }
+            if (GetFinalLineIndex() + 1 == MaxNumLines) { StartCoroutine(InvokeOnFailDelayed()); IsEnabled = false; }
         }
         else if (character == '\b')
         {
@@ -64,12 +70,6 @@ public class WordleTextEditor : TextEditor
             if (!isCharacterRecognised) { return false; }
         }
         return true;
-    }
-
-    private void Disable()
-    {
-        IsEnabled = false;
-        OnWordleTextEditorDisabled?.Invoke();
     }
 
     private bool IsLineComplete(string[] lines ,string line)

@@ -6,7 +6,7 @@ namespace Tilemaps
     {
         protected override void ResetTile(Vector3Int position)
         {
-            Tilemap.SetTile(position, null);
+            //Tilemap.SetTile(position, null);
         }
     }
 }
