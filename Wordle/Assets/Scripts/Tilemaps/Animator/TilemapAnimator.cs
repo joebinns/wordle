@@ -21,6 +21,11 @@ public class TilemapAnimator : MonoBehaviour
     private IEnumerator SetTileDelayedCoroutine(Vector3Int position, Tile tile, float delay)
     {
         yield return new WaitForSeconds(delay);
+        SetTile(position, tile);
+    }
+    
+    public void SetTile(Vector3Int position, Tile tile)
+    {
         _tilemap.SetTile(position, tile);
     }
     

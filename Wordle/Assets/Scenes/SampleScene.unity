@@ -2057,7 +2057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialiseAllAnimation: {fileID: 1447863145}
   ShowGuessesAnimation: {fileID: 863955276}
-  SetTextAnimation: {fileID: 0}
+  SetTextAnimation: {fileID: 974000629}
   ShowAccuracyAnimation: {fileID: 0}
   ShowSolutionAnimation: {fileID: 0}
   ClearAllAnimation: {fileID: 0}
@@ -2355,6 +2355,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a86c9960c863a842a26ad201ec72f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _letterTilemapAnimator: {fileID: 1675965097}
+  _decoratorTilemapAnimator: {fileID: 221659438}
+  _letterTilemapHandler: {fileID: 1675965096}
+  _decoratorTilemapHandler: {fileID: 221659437}
+  _fullParticleSystem: {fileID: 1609944743}
+  _semiParticleSystem: {fileID: 1556556519}
 --- !u!1 &994368459
 GameObject:
   m_ObjectHideFlags: 0
