@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InitialiseAllAnimation : Animation
 {
+    [SerializeField] private TilemapAnimator _letterTilemapAnimator;
     [SerializeField] private TilemapAnimator _decoratorTilemapAnimator;
     
     public override IEnumerator Play(Context context)
@@ -13,9 +14,9 @@ public class InitialiseAllAnimation : Animation
             {
                 var position = new Vector3Int(x, -y, 0);
                 _decoratorTilemapAnimator.SetRotation(position, Vector3.right * -90f);
+                _letterTilemapAnimator.SetRotation(position, Vector3.right * -90f);
             }
         }
-
         yield return null;
     }
 }

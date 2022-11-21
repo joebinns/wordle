@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public abstract class AnimationsController : MonoBehaviour
@@ -14,6 +12,16 @@ public abstract class AnimationsController : MonoBehaviour
         StartCoroutine(UpdateQueue());
     }
 
+    protected void PlayAnimation(AnimationCall animationCall)
+    {
+        StartCoroutine(PlayAnimationCoroutine(animationCall));
+    }
+    
+    private IEnumerator PlayAnimationCoroutine(AnimationCall animationCall)
+    {
+        yield return animationCall.Animation.Play(animationCall.Context);
+    }
+
     private IEnumerator UpdateQueue()
     {
         while (true)
@@ -21,12 +29,12 @@ public abstract class AnimationsController : MonoBehaviour
             if (_animationCalls.Count > 0)
             {
                 var animationCall = _animationCalls.Dequeue();
-                yield return animationCall.Animation.Play(animationCall.Context);
+                yield return PlayAnimationCoroutine(animationCall);
             }
             yield return null;
         }
     }
-    
+
     public struct AnimationCall
     {
         public Animation Animation { get; }

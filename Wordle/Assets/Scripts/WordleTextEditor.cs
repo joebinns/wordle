@@ -1,13 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class WordleTextEditor : TextEditor
 {
     public const int NumCharsPerLine = 5;
     
     private WordChecker _wordChecker;
+
+    public static event Action OnWordleTextEditorDisabled;
 
     private void Awake()
     {
@@ -44,8 +45,8 @@ public class WordleTextEditor : TextEditor
         {
             var isLineComplete = IsLineComplete(lines, finalLine);
             if (!isLineComplete) { return false; }
-            if (_wordChecker.DoesWordMatch(GetFinalLine())) { IsEnabled = false; }
-            if (GetFinalLineIndex() + 2 == MaxNumLines) { IsEnabled = false; }
+            if (_wordChecker.DoesWordMatch(GetFinalLine())) { Disable(); }
+            if (GetFinalLineIndex() + 2 == MaxNumLines) { Disable(); }
         }
         else if (character == '\b')
         {
@@ -63,6 +64,12 @@ public class WordleTextEditor : TextEditor
             if (!isCharacterRecognised) { return false; }
         }
         return true;
+    }
+
+    private void Disable()
+    {
+        IsEnabled = false;
+        OnWordleTextEditorDisabled?.Invoke();
     }
 
     private bool IsLineComplete(string[] lines ,string line)

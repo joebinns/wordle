@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ShowGuessesAnimation : Animation
 {
+    [SerializeField] private TilemapAnimator _letterTilemapAnimator;
     [SerializeField] private TilemapAnimator _decoratorTilemapAnimator;
     
     public override IEnumerator Play(Context context)
     {
-        var duration = 0.6f;
+        var duration = 0.3f;
         
         var positions = new List<Vector3Int>();
         
@@ -41,6 +42,7 @@ public class ShowGuessesAnimation : Animation
 
     private void ShowTile(Vector3Int position, float duration)
     {
+        _letterTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.right * -90f, Vector3.zero, duration);
         _decoratorTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.right * -90f, Vector3.zero, duration);
     }
 }
