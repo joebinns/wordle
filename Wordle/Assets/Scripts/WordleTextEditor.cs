@@ -52,7 +52,7 @@ public class WordleTextEditor : TextEditor
             var isLineComplete = IsLineComplete(lines, finalLine);
             if (!isLineComplete) { return false; }
             if (_wordChecker.DoesWordMatch(GetFinalLine())) { IsEnabled = false; }
-            if (GetFinalLineIndex() + 1 == MaxNumLines) { StartCoroutine(InvokeOnFailDelayed()); IsEnabled = false; }
+            else if (GetFinalLineIndex() + 1 == MaxNumLines) { StartCoroutine(InvokeOnFailDelayed()); IsEnabled = false; }
         }
         else if (character == '\b')
         {
@@ -88,5 +88,10 @@ public class WordleTextEditor : TextEditor
             }
         }
         return false;
+    }
+
+    protected override void Reset()
+    {
+        base.Reset();
     }
 }

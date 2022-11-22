@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbe85b6f99204f439779c6ef7d80cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyboardAnimationsController: {fileID: 0}
+  _keyboardAnimationsController: {fileID: 192881046}
   _textTilemapTracker: {fileID: 440077915}
 --- !u!1 &187984435
 GameObject:
@@ -747,6 +747,56 @@ MonoBehaviour:
   _decoratorTilemapAnimator: {fileID: 221659438}
   _default: {fileID: 11400000, guid: 331d405687c521040893c53d5f28260c, type: 2}
   _select: {fileID: 11400000, guid: 9d8809d3cdf339f499b4e488fe2102f6, type: 2}
+--- !u!1 &192881045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 192881047}
+  - component: {fileID: 192881046}
+  m_Layer: 0
+  m_Name: Keyboard Animations
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &192881046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192881045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906db9c72eb2fae4c97a63c682827d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clickAnimation: {fileID: 538322776}
+  _revealAccuracyAnimation: {fileID: 1551915450}
+  _keyboardResetAnimation: {fileID: 1537583808}
+--- !u!4 &192881047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192881045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 538322775}
+  - {fileID: 1551915449}
+  - {fileID: 1537583807}
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &221659433
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,6 +2220,54 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!1 &538322774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538322775}
+  - component: {fileID: 538322776}
+  m_Layer: 0
+  m_Name: Click Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &538322775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538322774}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 192881047}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538322776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538322774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd57a70aa8f1e645b7e7c3afb2f62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textTilemapTracker: {fileID: 440077915}
+  _letterTilemapAnimator: {fileID: 440077916}
+  _decoratorTilemapAnimator: {fileID: 176464405}
+  _hoverableTilemap: {fileID: 176464406}
 --- !u!1 &581844819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,7 +2279,7 @@ GameObject:
   - component: {fileID: 581844821}
   - component: {fileID: 581844820}
   m_Layer: 0
-  m_Name: Guesses Test Animations Controller
+  m_Name: Guesses Animations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2199,14 +2297,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99847dc73c7138142826b7f56da99121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialiseAllAnimation: {fileID: 1447863145}
-  ShowGuessesAnimation: {fileID: 863955276}
-  SetTextAnimation: {fileID: 974000629}
-  ShakeAnimation: {fileID: 187984437}
-  SubmitGuessAnimation: {fileID: 283836820}
-  ShowSolutionAnimation: {fileID: 1969021178}
-  ResetAnimation: {fileID: 1585609183}
-  HideSolutionAnimation: {fileID: 453293425}
+  _initialiseAllAnimation: {fileID: 1447863145}
+  _showGuessesAnimation: {fileID: 863955276}
+  _setTextAnimation: {fileID: 974000629}
+  _shakeAnimation: {fileID: 187984437}
+  _submitGuessAnimation: {fileID: 283836820}
+  _showSolutionAnimation: {fileID: 1969021178}
+  _resetAnimation: {fileID: 1585609183}
+  _hideSolutionAnimation: {fileID: 453293425}
 --- !u!4 &581844821
 Transform:
   m_ObjectHideFlags: 0
@@ -2755,6 +2853,101 @@ Transform:
   m_Father: {fileID: 875783538}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1537583806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1537583807}
+  - component: {fileID: 1537583808}
+  m_Layer: 0
+  m_Name: Keyboard Reset Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1537583807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537583806}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 192881047}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537583808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537583806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1b511003db24742987576c5122a06a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _letterTilemapAnimator: {fileID: 440077916}
+  _decoratorTilemapAnimator: {fileID: 176464405}
+  _decoratorTilemapHandler: {fileID: 176464404}
+--- !u!1 &1551915448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1551915449}
+  - component: {fileID: 1551915450}
+  m_Layer: 0
+  m_Name: Reveal Accuracy Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1551915449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551915448}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 192881047}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1551915450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551915448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514e0ebac028c6f47820b882871d1ca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textTilemapTracker: {fileID: 440077915}
+  _decoratorTilemapHandler: {fileID: 176464404}
+  _decoratorTilemapAnimator: {fileID: 176464405}
+  _letterTilemapAnimator: {fileID: 440077916}
 --- !u!1 &1556556517
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,62 +1,35 @@
-using System.Collections.Generic;
-using System.Linq;
-using Tilemaps;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class KeyboardAnimationsController : MonoBehaviour
+public class KeyboardAnimationsController : AnimationsController
 {
-    [SerializeField] private DecoratorTilemapHandler _keyboardDecoratorTilemapHandler;
-    [SerializeField] private TextTilemapTracker _textTilemapTracker;
+    [SerializeField] private Animation _clickAnimation;
+    [SerializeField] private Animation _revealAccuracyAnimation;
+    [SerializeField] private Animation _keyboardResetAnimation;
     
-    private KeyboardAnimations _keyboardAnimations;
-    private WordleTextEditor _wordleTextEditor;
-    private WordChecker _wordChecker;
-
-    private void Awake()
-    {
-        _keyboardAnimations = GetComponent<KeyboardAnimations>();
-        _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
-        _wordChecker = FindObjectOfType<WordChecker>();
-    }
-
     private void OnEnable()
     {
-        WordleTextEditor.OnTextChanged += OnTextChanged;
+        WordleTextEditor.OnTextChanged += PlayRevealAccuracyAnimation;
+        GameManager.Instance.OnGameReset += EnqueueResetAnimation;
     }
     
     private void OnDisable()
     {
-        WordleTextEditor.OnTextChanged -= OnTextChanged;
+        WordleTextEditor.OnTextChanged -= PlayRevealAccuracyAnimation;
+        GameManager.Instance.OnGameReset -= EnqueueResetAnimation;
+    }
+    
+    public void PlayClickAnimation(char character)
+    {
+        PlayAnimation(new AnimationCall(_clickAnimation, new Animation.Context(character)));
     }
 
-    public void ClickTile(char character)
+    private void PlayRevealAccuracyAnimation(char character)
     {
-        var position = _textTilemapTracker.CharacterToPosition(character);
-        _keyboardAnimations.ClickTile(position);
+        PlayAnimation(new AnimationCall(_revealAccuracyAnimation, new Animation.Context(character)));
     }
-
-    private void OnTextChanged(char input)
+    
+    private void EnqueueResetAnimation()
     {
-        if (input == '\r')
-        {
-            var word = _wordleTextEditor.GetLine(_wordleTextEditor.GetFinalLineIndex() - 1);
-            var indexToTileState = _wordChecker.GetTileStates(word);
-            var indices = indexToTileState.Keys.ToList();
-            var positionToTile = new Dictionary<Vector3Int, Tile>();
-            for (int i = 0; i < indices.Count; i++)
-            {
-                var character = word[i];
-                var index = indices[i];
-                var tileState = indexToTileState[index];
-                var characterPosition = _textTilemapTracker.CharacterToPosition(character);
-                if (tileState > _keyboardDecoratorTilemapHandler.PositionToTileState[characterPosition])
-                {
-                    var tile = _keyboardDecoratorTilemapHandler.TileStateToTile(tileState);
-                    positionToTile[characterPosition] = tile;
-                }
-            }
-            _keyboardAnimations.RevealGuessTiles(positionToTile);
-        }
+        AnimationCalls.Enqueue(new AnimationCall(_keyboardResetAnimation, new Animation.Context()));
     }
 }

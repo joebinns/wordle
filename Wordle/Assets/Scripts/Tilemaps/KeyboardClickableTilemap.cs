@@ -46,7 +46,7 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickVisual(char character)
     {
-        //_keyboardAnimationsController.ClickTile(character);
+        _keyboardAnimationsController.PlayClickAnimation(character);
     }
 
     private void ClickFunctionality(char character)

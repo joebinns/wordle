@@ -55,7 +55,7 @@ public abstract class TextEditor : MonoBehaviour
 
     protected abstract bool IsInputValid(char character);
 
-    private void Reset()
+    protected virtual void Reset()
     {
         _text = "";
         IsEnabled = true;

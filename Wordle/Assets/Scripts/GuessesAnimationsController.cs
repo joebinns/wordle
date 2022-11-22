@@ -1,121 +1,71 @@
-using System.Collections.Generic;
-using System.Linq;
-using Tilemaps;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class GuessesAnimationsController : MonoBehaviour
+public class GuessesAnimationsController : AnimationsController
 {
-    // TODO: Queue animations, such that only one occurs at a time.
-    [SerializeField] private DecoratorTilemapHandler _guessesDecoratorTilemapHandler;
-    
-    private GuessesAnimations _guessesAnimations;
-    private WordleTextEditor _wordleTextEditor;
-    private WordChecker _wordChecker;
+    [SerializeField] private Animation _initialiseAllAnimation;
+    [SerializeField] private Animation _showGuessesAnimation;
+    [SerializeField] private Animation _setTextAnimation; 
+    [SerializeField] private Animation _shakeAnimation;
+    [SerializeField] private Animation _submitGuessAnimation;
+    [SerializeField] private Animation _showSolutionAnimation;
+    [SerializeField] private Animation _resetAnimation;
+    [SerializeField] private Animation _hideSolutionAnimation;
 
-    private bool _isSolutionVisible = true;
-    private bool _isSolutionInitialised = false;
-
-    private void Awake()
-    {
-        _guessesAnimations = GetComponent<GuessesAnimations>();
-        _wordleTextEditor = FindObjectOfType<WordleTextEditor>();
-        _wordChecker = FindObjectOfType<WordChecker>();
-    }
+    private bool _isSolutionVisible = false;
 
     private void OnEnable()
     {
-        WordleTextEditor.OnInvalidInput += Shake;
-        WordleTextEditor.OnTextChanged += OnTextChanged;
-        WordChecker.OnWordChanged += UpdateSolution;
-        WordChecker.OnWordChanged += ToggleSolutionVisibility; // TODO: Toggle solution visibility when game ends (First add end-game condition).
+        WordleTextEditor.OnTextChanged += EnqueueSetTextAnimation;
+        WordleTextEditor.OnTextChanged += EnqueueSubmitGuessAnimation;
+        WordleTextEditor.OnInvalidInput += EnqueueShakeAnimation;
+        WordleTextEditor.OnFail += EnqueueShowSolutionAnimation;
+        GameManager.Instance.OnGameReset += EnqueueResetAnimation;
     }
-    
+
     private void OnDisable()
     {
-        WordleTextEditor.OnInvalidInput -= Shake;
-        WordleTextEditor.OnTextChanged -= OnTextChanged;
-        WordChecker.OnWordChanged -= UpdateSolution;
-        WordChecker.OnWordChanged -= ToggleSolutionVisibility;
+        WordleTextEditor.OnTextChanged -= EnqueueSetTextAnimation;
+        WordleTextEditor.OnTextChanged -= EnqueueSubmitGuessAnimation;
+        WordleTextEditor.OnInvalidInput -= EnqueueShakeAnimation;
+        WordleTextEditor.OnFail -= EnqueueShowSolutionAnimation;
+        GameManager.Instance.OnGameReset -= EnqueueResetAnimation;
     }
 
-    private void UpdateSolution()
+    protected override void Start()
     {
-        var word = _wordChecker.Word;
-        for (int i = 0; i < word.Length; i++)
-        {
-            var characterPosition = new Vector3Int(i, -WordleTextEditor.MaxNumLines, 0);
-            var character = word[i];
-            var tile = TilemapUtilities.FindTileByCharacter(character);
-            _guessesAnimations.SetLetter(characterPosition, tile);
-        }
+        base.Start();
+        AnimationCalls.Enqueue(new AnimationCall(_initialiseAllAnimation, new Animation.Context()));
+        AnimationCalls.Enqueue(new AnimationCall(_showGuessesAnimation, new Animation.Context()));
     }
 
-    private void ToggleSolutionVisibility()
+    private void EnqueueSubmitGuessAnimation(char character)
     {
-        _isSolutionVisible = !_isSolutionVisible;
-        var duration = 0.3f;
-        _guessesAnimations.ToggleSolutionTilesVisibility(_isSolutionVisible, _isSolutionInitialised ? duration : 0f);
-        _isSolutionInitialised = true;
+        AnimationCalls.Enqueue(new AnimationCall(_submitGuessAnimation, new Animation.Context(character)));
     }
 
-    private void OnTextChanged(char character)
+    private void EnqueueSetTextAnimation(char character)
     {
-        var characterIndex = _wordleTextEditor.GetFinalLine().Length - 1;
-        var characterPosition = IndexToPosition(characterIndex);
-        if (character is >= 'a' and <= 'z')
-        {
-            var tile = TilemapUtilities.FindTileByCharacter(character);
-            _guessesAnimations.SetLetter(characterPosition, tile);
-        }
-        else if (character == '\b')
-        {
-            characterPosition.x++;
-            _guessesAnimations.SetLetter(characterPosition, null);
-        }
-        else if (character == '\r')
-        {
-            var word = _wordleTextEditor.GetLine(_wordleTextEditor.GetFinalLineIndex() - 1);
-            var indexToTileState = _wordChecker.GetTileStates(word);
-            var indices = indexToTileState.Keys.ToList();
-            var positionToTile = new Dictionary<Vector3Int, Tile>();
-            for (int i = 0; i < indices.Count; i++)
-            {
-                var index = indices[i];
-                var position = IndexToPosition(index);
-                position.y++;
-                var tile = _guessesDecoratorTilemapHandler.TileStateToTile(indexToTileState[index]);
-                positionToTile[position] = tile;
-            }
-            _guessesAnimations.RevealGuessTiles(positionToTile);
-        }
+        PlayAnimation(new AnimationCall(_setTextAnimation, new Animation.Context(character)));
+    }
+
+    private void EnqueueShakeAnimation()
+    {
+        PlayAnimation(new AnimationCall(_shakeAnimation, new Animation.Context()));
     }
     
-    private void Shake()
+    private void EnqueueShowSolutionAnimation()
     {
-        var lineIndex = _wordleTextEditor.GetFinalLineIndex();
-        
-        var fullIndices = _wordleTextEditor.GetFullIndices(lineIndex);
-        var fullPositions = IndicesToPositions(fullIndices);
-        
-        var emptyIndices = _wordleTextEditor.GetEmptyIndices(lineIndex);
-        var emptyPositions = IndicesToPositions(emptyIndices);
-
-        var areAllPositionsFull = emptyPositions.Count == 0;
-
-        _guessesAnimations.HighlightTiles(areAllPositionsFull ? fullPositions : emptyPositions);
-        _guessesAnimations.ShakeTilesReactive(areAllPositionsFull ? fullPositions : emptyPositions, areAllPositionsFull ? emptyPositions : fullPositions, Vector3.zero, areAllPositionsFull ? Vector3.left : Vector3.right);
+        AnimationCalls.Enqueue(new AnimationCall(_showSolutionAnimation, new Animation.Context()));
+        _isSolutionVisible = true;
     }
-
-    private Vector3Int IndexToPosition(int index)
+    
+    private void EnqueueResetAnimation()
     {
-        var lineIndex = _wordleTextEditor.GetFinalLineIndex();
-        return new Vector3Int(index, -lineIndex, 0);
-    }
-
-    private List<Vector3Int> IndicesToPositions(List<int> indices)
-    {
-        var lineIndex = _wordleTextEditor.GetFinalLineIndex();
-        return indices.Select(characterIndex => new Vector3Int(characterIndex, -lineIndex, 0)).ToList();
+        if (_isSolutionVisible)
+        {
+            AnimationCalls.Enqueue(new AnimationCall(_hideSolutionAnimation, new Animation.Context()));
+        }
+        AnimationCalls.Enqueue(new AnimationCall(_resetAnimation, new Animation.Context()));
+        _isSolutionVisible = false;
     }
 }
