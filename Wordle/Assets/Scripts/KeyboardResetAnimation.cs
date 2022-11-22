@@ -44,7 +44,7 @@ public class KeyboardResetAnimation : Animation
                 previousMagnitude = magnitude;
             }
 
-            _decoratorTilemapAnimator.SetTileDelayed(position, _decoratorTilemapHandler.TileStateToTile(TileState.UnGuessed), duration / 2f);
+            _decoratorTilemapHandler.SetTileDelayed(position, _decoratorTilemapHandler.TileStateToTile(TileState.UnGuessed), duration / 2f);
             _decoratorTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
             _letterTilemapAnimator.SmoothTrickHalfFlipTileOnce(position, duration);
         }

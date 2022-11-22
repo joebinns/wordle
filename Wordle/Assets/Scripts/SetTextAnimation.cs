@@ -15,7 +15,7 @@ public class SetTextAnimation : Animation
     public override IEnumerator Play(Context context)
     {
         var character = context.Character;
-        var characterIndex = _wordleTextEditor.GetFinalLine().Length - 1;
+        var characterIndex = _wordleTextEditor.GetLine(context.LineIndex).Length - 1;
         var characterPosition = IndexToPosition(characterIndex);
         if (character is >= 'a' and <= 'z')
         {

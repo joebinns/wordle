@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyboardClickableTilemap : ClickableTilemap
 {
-    [SerializeField] private KeyboardAnimationsController _keyboardAnimationsController;
+    [SerializeField] private WordleAnimationsController _WordleAnimationsController;
     [SerializeField] private TextTilemapTracker _textTilemapTracker;
 
     private WordleTextEditor _wordleTextEditor;
@@ -46,7 +46,7 @@ public class KeyboardClickableTilemap : ClickableTilemap
 
     private void ClickVisual(char character)
     {
-        _keyboardAnimationsController.PlayClickAnimation(character);
+        _WordleAnimationsController.PlayClickAnimation(character);
     }
 
     private void ClickFunctionality(char character)

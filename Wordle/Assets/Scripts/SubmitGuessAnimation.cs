@@ -27,17 +27,16 @@ public class SubmitGuessAnimation : Animation
     public override IEnumerator Play(Context context)
     {
         var character = context.Character;
-        var characterIndex = _wordleTextEditor.GetFinalLine().Length - 1;
         if (character == '\r')
         {
-            var word = _wordleTextEditor.GetLine(_wordleTextEditor.GetFinalLineIndex() - 1);
+            var word = _wordleTextEditor.GetLine(context.LineIndex - 1);
             var indexToTileState = _wordChecker.GetTileStates(word);
             var indices = indexToTileState.Keys.ToList();
             var positionToTile = new Dictionary<Vector3Int, Tile>();
             for (int i = 0; i < indices.Count; i++)
             {
                 var index = indices[i];
-                var position = IndexToPosition(index);
+                var position = new Vector3Int(index, -context.LineIndex, 0);
                 position.y++;
                 var tile = _decoratorTilemapHandler.TileStateToTile(indexToTileState[index]);
                 positionToTile[position] = tile;
@@ -47,13 +46,7 @@ public class SubmitGuessAnimation : Animation
         
         yield return null;
     }
-    
-    private Vector3Int IndexToPosition(int index)
-    {
-        var lineIndex = _wordleTextEditor.GetFinalLineIndex();
-        return new Vector3Int(index, -lineIndex, 0);
-    }
-    
+
     private IEnumerator RevealGuessTiles(Dictionary<Vector3Int, Tile> positionToTile)
     {
         var duration = 0.6f;

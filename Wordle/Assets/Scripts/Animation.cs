@@ -8,10 +8,12 @@ public abstract class Animation : MonoBehaviour
     public struct Context
     {
         public char Character;
+        public int LineIndex;
         
-        public Context(char character)
+        public Context(char character, int lineIndex)
         {
             this.Character = character;
+            this.LineIndex = lineIndex;
         }
     }
 }
