@@ -33,7 +33,6 @@ public class RevealAccuracyAnimation : Animation
             for (int i = 0; i < indices.Count; i++)
             {
                 var character = word[i];
-                Debug.Log(character);
                 var index = indices[i];
                 var tileState = indexToTileState[index];
                 var characterPosition = _textTilemapTracker.CharacterToPosition(character);

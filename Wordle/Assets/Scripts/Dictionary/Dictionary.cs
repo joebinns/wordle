@@ -5,17 +5,17 @@ using Random = UnityEngine.Random;
 
 public class Dictionary : MonoBehaviour
 {
-    private List<string> _dictionary;
-    private IEnumerable<string> _greaterDictionary;
+    private HashSet<string> _dictionary;
+    private HashSet<string> _greaterDictionary;
     
     private void Awake()
     {
         _dictionary = ReadTxt("easy_five_letter_dictionary");
         _greaterDictionary = ReadTxt("five_letter_dictionary");
-        _greaterDictionary = _dictionary.Union(_greaterDictionary);
+        _greaterDictionary.UnionWith(_dictionary);
     }
 
-    private List<string> ReadTxt(string txt)
+    private HashSet<string> ReadTxt(string txt)
     {
         var textAsset = Resources.Load(txt) as TextAsset;
         var list = new List<string>(textAsset.text.Split('\n'));
@@ -23,7 +23,8 @@ public class Dictionary : MonoBehaviour
         {
             list[i] = list[i].Trim();
         }
-        return list;
+        var hashSet = new HashSet<string>(list);
+        return hashSet;
     }
 
     public bool Contains(string word)
@@ -34,6 +35,6 @@ public class Dictionary : MonoBehaviour
     public string GetRandomWord()
     {
         var index = Random.Range(0, _dictionary.Count);
-        return _dictionary[index];
+        return _dictionary.ElementAt(index);
     }
 }
