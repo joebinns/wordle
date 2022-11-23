@@ -13303,7 +13303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sounds:
   - _name: Keyboard Primary
-    _clip: {fileID: 8300000, guid: 33cb4643d0384374aac9dada79fa3392, type: 3}
+    _clip: {fileID: 8300000, guid: 13f3356242a897041865bcefe84fae17, type: 3}
     _volume: 1
     _pitch: 1
     _loop: 0
