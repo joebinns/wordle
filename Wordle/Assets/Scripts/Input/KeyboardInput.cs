@@ -4,14 +4,12 @@ using UnityEngine;
 public class KeyboardInput : MonoBehaviour
 {
     private TextEditor _textEditor;
-    private KeyboardAnimations _keyboardAnimations;
 
     public static event Action<char> OnKeyDown;
     
     private void Awake()
     {
         _textEditor = FindObjectOfType<TextEditor>();
-        _keyboardAnimations = FindObjectOfType<KeyboardAnimations>();
     }
 
     private void Update()

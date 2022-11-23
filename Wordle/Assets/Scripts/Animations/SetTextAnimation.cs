@@ -1,4 +1,5 @@
 using System.Collections;
+using Audio;
 using UnityEngine;
 
 public class SetTextAnimation : Animation
@@ -21,11 +22,17 @@ public class SetTextAnimation : Animation
         {
             var tile = TilemapUtilities.FindTileByCharacter(character);
             _letterTilemapAnimator.SetTile(characterPosition, tile);
+            AudioManager.Instance.Play("Keyboard Primary");
         }
         else if (character == '\b')
         {
             characterPosition.x++;
             _letterTilemapAnimator.SetTile(characterPosition, null);
+            AudioManager.Instance.Play("Keyboard Secondary");
+        }
+        else if (character == '\r')
+        {
+            AudioManager.Instance.Play("Keyboard Secondary");
         }
         yield return null;
     }

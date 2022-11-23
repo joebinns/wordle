@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,6 +21,8 @@ public class ShakeAnimation : Animation
 
     public override IEnumerator Play(Context context)
     {
+        AudioManager.Instance.Play("Error");
+        
         var lineIndex = _wordleTextEditor.GetFinalLineIndex();
         
         var fullIndices = _wordleTextEditor.GetFullIndices(lineIndex);

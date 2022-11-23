@@ -55,8 +55,8 @@ public class SubmitGuessAnimation : Animation
         {
             var tile = positionToTile[position];
             
-            AudioManager.Instance.SetPitch("Flip", pitch);
-            AudioManager.Instance.Play("Flip");
+            //AudioManager.Instance.SetPitch("Flip", pitch);
+            //AudioManager.Instance.Play("Flip");
 
             _decoratorTilemapAnimator.SetTileDelayed(position, tile, duration / 2f);
             _decoratorTilemapAnimator.SmoothHalfFlipTileOnce(position, Vector3.zero, Vector3.right * 180f, duration);
