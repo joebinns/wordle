@@ -46,6 +46,11 @@ public abstract class TextEditor : MonoBehaviour
     {
         return(GetLines()[index]);
     }
+
+    public bool HasLine(int index)
+    {
+        return index < GetLines().Length;
+    }
     
     protected string[] GetLines()
     {
