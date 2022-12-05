@@ -10,7 +10,9 @@ Undo letters using <kbd>Backspace</kbd>.
 Alternatively, use the on-screen keyboard with your <kbd>Mouse</kbd>.
 
 ## Write-up
-Searching through a list of 16,000 words every time I want to check if a word is valid or not is extremely inefficient. Since each words in the list is unique, I decided to instead use a hash set. Now, only a single hash function needs to be calculated to check whether or not a word is valid.
+Searching through a list of 16,000 words every time I want to check if a word is valid or not is extremely inefficient. Since each words in the list is unique, I decided to instead use a hash set to store the words. Now, only a single hash function needs to be calculated to check whether or not a word is valid.
+
+I decided to use Tilemaps to draw the guesses text. In order to uphold abstraction, I modified and stored the text through a custom text editor script. The text editor script stored the entire text in a single list. I then created convenient accessors, such as for fetching the word stored on the current line.
 
 ## Credits
 ### Sound Effects
