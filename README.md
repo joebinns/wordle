@@ -14,6 +14,8 @@ Searching through a list of 16,000 words every time I want to check if a word is
 
 I decided to use Tilemaps to draw the guesses text. In order to uphold abstraction, I modified and stored the text through a custom text editor script. The text editor script stored the entire text in a single list. I then created convenient accessors, such as for fetching the word stored on the current line.
 
+Applying the correct colouring to tiles was not as trivial as I initially expected. The solution I ended up with involved two passes. First, I determinedd colours based on the naive checks of "IsCharacterIncluded" (yellow) and "IsCharacterIncludedAtIndex" (green). For characters which were included in both the submitted guess and the solution, I determined the number of occurences of each character. I then subtracted the number of occurences in the solution from the number of occurences in the guess, to get the excess number of occurences of the character. On a final pass through the word, characters with naively yellow coloured tiles with excesses greater than zero were then uncoloured. I kept track of the number of occurences of each character using a dictionary, allowing for O(1) lookup times.
+
 ## Credits
 ### Sound Effects
 The sound effects and audio were kindly created and arranged by [Clara Summerton](mailto:clarasummerton@gmail.com).
